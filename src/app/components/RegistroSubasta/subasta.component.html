@@ -1,0 +1,111 @@
+<h3 class="display-6">SUBASTAS</h3>
+<hr>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"></h6>
+    </div>
+    <div class="card-body">
+
+        <div class="container py-5">
+            <h1 class="text-center">Lista de Subastas</h1>
+            <div>
+
+                <div class="row justify-content-end">
+                    <div class=" justify-content-end">
+                        <div class="form-group col-md-1">
+                            <button class="btn btn-primary" (click)="ofSubmit()">
+                                Ofertas
+                            </button>
+                        </div>
+                    </div>
+                    <div class=" justify-content-end">
+                        <div class="form-group col-md-1">
+                            <button class="btn btn-primary" (click)="onSubmit()">
+                                Inicio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
+
+                    <div class="col" *ngFor="let libro2 of LibrosLst">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title"><strong>{{ libro2.titulo }}</strong></h5>
+                                <p class="card-text">{{ libro2.sinopsis | slice:0:70 }}{{ libro2.sinopsis.length > 70 ?
+                                    '...' : '' }}</p>
+                                <p class="card-text">Fecha Inicio: {{ libro2.fecha_inicio | date:'dd-MM-yyyy' }}</p>
+                                <p class="card-text">Fecha Fin : {{ libro2.fecha_final | date:'dd-MM-yyyy' }}</p>
+                            </div>
+                            <div class="mb-5 d-flex justify-content-around">
+                                <h3>S/ {{ libro2.precio_base }}</h3>
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#createModal"
+                                    (click)="cargarModal(libro2)">
+                                    Ofertar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Nueva Oferta -->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ofertar Libro</h5>
+                    <button id="createModal-close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" class="form-horizontal">
+                        <div class="row">
+                            <div class="form-group col-md-2">
+                                <label for="">Id Libro:</label>
+                                <input type="text" name="codigo" id="codigo" placeholder="Codigo Libro"
+                                    class="form-control" [(ngModel)]="idlibroInput" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="">Titulo:</label>
+                                <input type="text" name="nombre" id="nombre" placeholder="Titulo" class="form-control"
+                                    [(ngModel)]="tituloInput" disabled>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="">Estado:</label>
+                                <input type="text" name="estado" id="estado" placeholder="Estado" class="form-control"
+                                    [(ngModel)]="estadoInput" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="">Precio Base:</label>
+                                <input type="text" name="dni" id="dni" placeholder="Precio" class="form-control"
+                                    [(ngModel)]="precio_baseInput" disabled>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="">Nueva Oferta:</label>
+                                <input type="text" name="Precio_Oferta" id="Precio_Oferta" placeholder="Precio_Oferta"
+                                    class="form-control" [(ngModel)]="precio_ofertaInput">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="createModal-close" class="btn btn-primary" (click)="AgregarNuevaOferta()">
+                        Ofertar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

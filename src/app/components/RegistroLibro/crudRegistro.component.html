@@ -1,0 +1,285 @@
+<h3 class="display-6">{{titulo}}</h3>
+<hr>
+
+<div class="accordion" id="accordionExample">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left font-weight-bold " type="button" data-toggle="collapse"
+                    data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Registro de Libros
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <form action="" class="form-horizontal" id="frmLibro">
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>Titulo :</label>
+                            <input type="text" name="nrodocumento" id="nrodocumento" placeholder="Titulo del libro"
+                                class="form-control" [(ngModel)]="tituloInput">
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="form-group col-md-2">
+                            <label for="editorialSelect">Editorial:</label>
+                            <select id="editorialSelect" name="editorialSelect" class="form-control"
+                                [(ngModel)]="ideditorialInput">
+                                <option *ngFor="let editorial of  editorialLst " [value]="editorial.ideditorial">{{
+                                    editorial.nombre }}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label for="generoSelect">Género:</label>
+                            <select id="generoSelect" name="generoSelect" class="form-control"
+                                [(ngModel)]="idgeneroInput">
+                                <option *ngFor="let genero of generoLst" [value]="genero.idgenero">{{ genero.descripcion
+                                    }}</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-2">
+                            <label for="estadoSelect">Estado:</label>
+                            <select id="estadoSelect" name="estadoSelect" class="form-control"
+                                [(ngModel)]="estadoInput">
+                                <option value="Nuevo">Nuevo</option>
+                                <option value="Usado">Usado</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>ISBN:</label>
+                            <input type="text" name="isbn" id="isbn" placeholder="Isbn" class="form-control"
+                                [(ngModel)]="isbnInput">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>Sinopsis:</label>
+                            <input type="text" name="sinopsis" id="sinopsis" placeholder="Sinopsis" class="form-control"
+                                [(ngModel)]="sinopsisInput">
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label>Fecha Inicio:</label>
+                            <input type="date" name="fechainicio" id="fechainicio" placeholder="fechainicio"
+                                class="form-control" [(ngModel)]="fecha_inicioInput">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>Fecha Final:</label>
+                            <input type="date" name="fechafinal" id="fechafinal" placeholder="fechafinal"
+                                class="form-control" [(ngModel)]="fecha_finalInput">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label>Precio Base:</label>
+                            <input type="text" name="preciobase" id="preciobase" placeholder="preciobase"
+                                class="form-control" [(ngModel)]="precio_baseInput">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-1">
+                            <button class="btn btn-primary" (click)="guardarLibros()">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tabla de Libros</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table datatable id="dataTable" class="table table-bordered">
+                <thead class="bg-secondary">
+                    <tr class="text-white">
+                        <th>#</th>
+                        <th>Titulo</th>
+                        <th>Estado</th>
+                        <th>ISBN</th>
+                        <th>Sinopsis</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let libros of librosLst; let i = index">
+                        <td>{{libros.idlibro}}</td>
+                        <td>{{libros.titulo}}</td>
+                        <td>{{libros.estado}}</td>
+                        <td>{{libros.isbn}}</td>
+                        <td>{{libros.sinopsis}}</td>
+                        <td>
+                            <button type="button" class="btn btn-warning" (click)="poblarModal(libros)"
+                            data-toggle="modal" data-target="#updateModal">
+                            <span class="fa fa-edit"></span>
+                        </button>
+                            &nbsp;
+                            <a class="btn btn-danger" (click)="eliminarLibros(libros.idlibro)">
+                                <span class="fa fa-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot class="thead-dark">
+                    <tr class="text-white">
+                        <th>#</th>
+                        <th>Titulo</th>
+                        <th>Estado</th>
+                        <th>ISBN</th>
+                        <th>Sinopsis</th>
+                        <th>Acciones</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+  
+<!-- Modal Actualizar -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Actualizar Libros</h5>
+            <button id="updateModal-close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action="" class="form-horizontal">
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <label>Id Libro :</label>
+                        <input type="text" name="IdLibro" id="IdLibro" placeholder="IdLibro"
+                            class="form-control" [(ngModel)]="idlibroAct" disabled>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Titulo :</label>
+                        <input type="text" name="nrodocumento" id="nrodocumento" placeholder="Titulo del libro"
+                            class="form-control" [(ngModel)]="tituloAct">
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="form-group col-md-4">
+                        <label for="editorialSelect">Editorial:</label>
+                        <select id="editorialSelect" name="editorialSelect" class="form-control"
+                            [(ngModel)]="ideditorialAct">
+                            <option *ngFor="let editorial of  editorialLst " [value]="editorial.ideditorial">{{
+                                editorial.nombre }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="generoSelect">Género:</label>
+                        <select id="generoSelect" name="generoSelect" class="form-control"
+                            [(ngModel)]="idgeneroAct">
+                            <option *ngFor="let genero of generoLst" [value]="genero.idgenero">{{ genero.descripcion
+                                }}</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="form-group col-md-2">
+                        <label for="estadoSelect">Estado:</label>
+                        <select id="estadoSelect" name="estadoSelect" class="form-control"
+                            [(ngModel)]="estadoAct">
+                            <option value="Nuevo">Nuevo</option>
+                            <option value="Usado">Usado</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label>ISBN:</label>
+                        <input type="text" name="isbn" id="isbn" placeholder="Isbn" class="form-control"
+                            [(ngModel)]="isbnAct">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-8">
+                        <label>Sinopsis:</label>
+                        <input type="text" name="sinopsis" id="sinopsis" placeholder="Sinopsis" class="form-control"
+                            [(ngModel)]="sinopsisAct">
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label>Fecha Inicio:</label>
+                        <input type="date" name="fechainicio" id="fechainicio" placeholder="fechainicio"
+                            class="form-control" [(ngModel)]="fecha_inicioAct">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Fecha Final:</label>
+                        <input type="date" name="fechafinal" id="fechafinal" placeholder="fechafinal"
+                            class="form-control" [(ngModel)]="fecha_finalAct">
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <label>Precio Base:</label>
+                        <input type="text" name="preciobase" id="preciobase" placeholder="preciobase"
+                            class="form-control" [(ngModel)]="precio_baseIAct">
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button class="btn btn-primary" (click)="modificarCliente()">
+                Guardar
+            </button>
+        </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+<h3 class="display-6">{{titulo}}</h3>
+<hr>
+
+
+<div class="accordion " id="accordionExample">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 mb-4">
+            <h6 class="m-0 font-weight-bold text-primary">Ofertas:</h6>
+        </div>
+        <div class="form-group col-md-2">
+            <select id="editorialSelect" name="editorialSelect" class="form-control" [(ngModel)]="idlibroInput">
+                <option *ngFor="let libro of  LibrosLst " [value]="libro.idlibro">{{ libro.titulo }}</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group col-md-2">
+        <button class="btn btn-primary" (click)="buscarOferta(idlibroInput)">
+            Buscar
+        </button>
+    </div>
+</div>
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tabla de Ofertas</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table datatable id="dataTable" class="table table-bordered">
+                <thead class="bg-secondary">
+                    <tr class="text-white">
+                        <th>#</th>
+                        <th>Titulo</th>
+                        <th>Estado</th>
+                        <th>ISBN</th>
+                        <th>Precio Base</th>
+                        <th>Precio Oferta</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let oferta of OfertaLst; let i = index">
+                        <td>{{oferta.idnuevaoferta }}</td>
+                        <td>{{ obtenerTituloEstadoISBN(oferta.idlibro).titulo }}</td>
+                        <td>{{ obtenerTituloEstadoISBN(oferta.idlibro).estado }}</td>
+                        <td>{{ obtenerTituloEstadoISBN(oferta.idlibro).isbn }}</td>
+                        <td>{{ obtenerTituloEstadoISBN(oferta.idlibro).precio_base }}</td>
+                        <td>{{oferta.precio_oferta }}</td>
+                        <td>
+                            <a class="btn btn-warning">
+                                <span class="fa fa-edit"></span>
+                            </a>
+                            &nbsp;
+                            <a class="btn btn-danger">
+                                <span class="fa fa-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot class="thead-dark">
+                    <tr class="text-white">
+                        <th>#</th>
+                        <th>Titulo</th>
+                        <th>Estado</th>
+                        <th>ISBN</th>
+                        <th>Precio Base</th>
+                        <th>Precio Oferta</th>
+                        <th>Acciones</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="container ">
+    <div class="row bg-light mt-5">
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <img src="assets/img/Logo.png" alt="login-icon" style="height: 20rem;">
+        </div>
+        <div class="col-md-6">
+            <div class="bg-light p-4 mb-5">
+                <div class="text-center p-4 mb-5">
+                    <h1 style="color: rgba(12, 122, 40, 0.932);"><strong>INICIO DE SESIÓN</strong></h1>
+                </div>
+                <div class="text-center mt-5">
+                    <!--<a href="">¿Aún eres nuevo aquí?</a>-->
+                    <!--<span class="mx-2">|</span>-->
+                    <!--<a href="">Crear una cuenta</a>-->
+                      <a href="javascript:void(0)" (click)="openRegisterModal()">Crear una cuenta</a>
+
+                </div>
+                
+                <div class="form-group mt-5">
+                    <label for="email">Correo</label>
+                    <input type="email" class="form-control" placeholder="Correo electrónico" id="login"
+                        [(ngModel)]="loginInput">
+                </div>
+                <div class="form-group mb-5">
+                    <label for="password">Contraseña</label>
+                    <input type="password" class="form-control" placeholder="Contraseña" id="password"
+                        [(ngModel)]="passwordInput">
+                </div>
+                <div class="text-right mb-5">
+                    <a href="" class="text-decoration-none">Recuperar contraseña?</a>
+                </div>
+                <div class="mt-5">
+                    <button type="button" class="btn btn-primary rounded-2 w-100"
+                        style="background-color: #87DC72; border: 0px;" (click)="onLogin()">
+                        <strong>INGRESAR</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<!-- login.component.html -->
+
+<!-- login.component.html -->
+
+<div *ngIf="isRegisterModalOpen" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeRegisterModal()">&times;</span>
+      <h2>Crear una cuenta</h2>
+  
+      <form class="register-form" (ngSubmit)="registerUser()" #registerForm="ngForm">
+        <div class="form-group">
+          <label for="nomUsuario">Nombre</label>
+          <input id="nomUsuario" type="text" [(ngModel)]="nomUsuario" name="nomUsuario" placeholder="Ingresa tu nombre" required />
+        </div>
+        <div class="form-group">
+          <label for="regLogin">Login</label>
+          <input id="regLogin" type="text" [(ngModel)]="regLogin" name="regLogin" placeholder="Ingresa tu login" required />
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Contraseña</label>
+          <input id="regPassword" type="password" [(ngModel)]="regPassword" name="regPassword" placeholder="Ingresa tu contraseña" required />
+        </div>
+        <div class="form-group">
+          <label for="regPregunta">Pregunta de seguridad</label>
+          <input id="regPregunta" type="text" [(ngModel)]="regPregunta" name="regPregunta" placeholder="Ingresa una pregunta de seguridad" required />
+        </div>
+        <div class="form-group">
+          <label for="answer">Respuesta de seguridad</label>
+          <input id="regRespuesta" type="text" [(ngModel)]="regRespuesta" name="regRespuesta" placeholder="Ingresa la respuesta a la pregunta" required />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="register-btn">Registrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  
