@@ -1,9 +1,11 @@
 import { Component, OnInit , EventEmitter, Output} from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "../../services/login.servivio";
-import { LoginModel } from "../../model/login.model";
+import { LoginModel, UserModel } from "../../model/login.model";
 import Swal from "sweetalert2";
 import { debug } from "node:console";
+import { response } from "express";
+import { responseInterceptor } from "http-proxy-middleware";
 
 
 @Component({
@@ -31,6 +33,30 @@ export class PagLoginComponent implements OnInit{
 
 
         ngOnInit(): void {
+
+        }
+
+        recuperaUser(){
+          const usertxt = this.loginInput;
+
+          const userModel:UserModel = {user: usertxt}
+          this,this.authService.recuperauser(userModel).subscribe(
+            response => {
+
+              this.regPregunta = response.userlogger.pregunta;
+              console.log(response.message); // "Login exitoso"
+              console.log(response.userlogger);
+              console.log(response.userlogger.pregunta);
+             /* Swal.fire({
+                icon: 'success',
+                title: 'Registro exitoso',
+                text: response.userlogger ||'El usuario ha sido registrado satisfactoriamente',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            });*/
+
+            }
+          )
 
         }
     
@@ -168,6 +194,20 @@ export class PagLoginComponent implements OnInit{
     closeRegisterModal() {
       this.isRegisterModalOpen = false;
     }
+
+    isRecuperarModalOpen = false;
+
+    openRecuperaModal(){
+      this.isRecuperarModalOpen = true;
+      this.recuperaUser();
+
+    }
+
+    closeRecuperaModal(){
+      this.isRecuperarModalOpen = false;
+    }
+
+
   
     register() {
       // Lógica de registro aquí
