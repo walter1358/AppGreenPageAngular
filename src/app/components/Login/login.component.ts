@@ -1,23 +1,24 @@
-import { Component } from "@angular/core";
+import { Component, OnInit , EventEmitter, Output} from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "../../services/login.servivio";
 import { LoginModel } from "../../model/login.model";
 import Swal from "sweetalert2";
 import { debug } from "node:console";
 
+
 @Component({
     selector: 'app-paglogin',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class PagLoginComponent {
+export class PagLoginComponent implements OnInit{
     
   isLoggedIn: boolean = false;  
-  loginInput: string = 'alonso@gmail.com';
-  passwordInput: string = '123';
+  loginInput: string = 'walter_cm93@hotmail.com';
+  passwordInput: string = 'Miclave24';
     
 
-    // Propiedades para el formulario de registro
+    // Propiedades para el formulario de registro7
     nomUsuario: string = '';
     regLogin: string = '';
     regPassword: string = '';
@@ -25,10 +26,16 @@ export class PagLoginComponent {
     regRespuesta: string = '';  
 
     constructor(
-        private authService: AuthService, private router: Router)  { }
+        private authService: AuthService, private router: Router,
+      )  { }
+
+
+        ngOnInit(): void {
+
+        }
     
         onLogin() {
-
+          // Aquí puedes utilizar localStorage
           
           console.log('Estad de isAuthenticated: ',this.authService.isAuthenticated())
           console.log('Estado de IsLoggedId: ' , this.authService.isLoggedIn)
@@ -44,20 +51,42 @@ export class PagLoginComponent {
             response => {
 
               this.authService.isLoggedIn = true;
+              const userName = response.userlogger.nomUsuario;
+              const userFound = response.userlogger
+              console.log('Usuario:', response.userlogger);  
+              this.authService.setUserData(response.userlogger);//////--------------------
+              console.log('data',this.authService.getUserData())////////---------------
+              if(response.userlogger.idPerfil== 1)/** */
+                {
+                  this.authService.isOferta = true
+                }else{
+                  this.authService.isOferta = false/** */
+                }              
               console.log('Estad de isAuthenticated: ',this.authService.isAuthenticated())
               console.log('Estado de IsLoggedId: ' , this.authService.isLoggedIn)
-              this.router.navigate(['/RegistroLibros'])     
-              console.log('Login exitoso:', response);
-              console.log(response.message)
-              Swal.fire({
+              //console.log('Login exitoso:', response);
+              console.log(response.message); // "Login exitoso"
+
+            /*  Swal.fire({
                 position:"center",
                 icon:"info",
                 title:"Bienvenido",
-                text:"Usuario correcto",
+                html: `
+                <strong>Bienvenido: </strong> ${userName}`<br><br>
+                <strong>Perfil: </strong> ${response.userlogger.perfilNombre}
+               `,                
+                //text: response.message || "Usuario correcto",
                 showCancelButton: true            
-              })   
+              }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirige a la ruta /RegistroLibros
+                    }
+                });*/
+                this.router.navigate(['/RegistroLibros']);
+
              
-           
+              //this.router.navigate(['/RegistroLibros'])     
+
          
                //Navega solo después de la respuesta exitosa del backend
             /*  this.router.navigate(['/RegistroLibros']).then(success => {
@@ -73,7 +102,7 @@ export class PagLoginComponent {
                     position: "center",
                     icon: "warning",
                     title: "Algo pasó!",
-                    text: "Usuario incorrecto",
+                    text: error.error || "Usuario o contraseña incorrecta",
                     showConfirmButton: true,
                     showCloseButton: true,
                     showCancelButton: false,
@@ -81,13 +110,11 @@ export class PagLoginComponent {
                   });
             }
             
-          );      
-          
+          );    
    
         }
 
-      onSubmit() {
-    }
+
 
 
     registerUser() {
