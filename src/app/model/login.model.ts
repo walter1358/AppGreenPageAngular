@@ -3,3 +3,6 @@ export interface LoginModel {
     pass: string;
 }
 
+export interface UserModel{
+    user: string;
+}
