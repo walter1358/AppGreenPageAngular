@@ -1,7 +1,7 @@
 <h3 class="display-6">{{titulo}}</h3>
 <hr>
 
-<div class="accordion" id="accordionExample">
+<div class="accordion" id="accordionExample"> 
     <div class="card shadow mb-4">
         <div class="card-header py-3" id="headingOne">
             <h2 class="mb-0">
@@ -125,7 +125,7 @@
                 <thead class="bg-secondary">
                     <tr class="text-white">
                         <th>#</th>
-                        <th>Titulo</th>
+                        <th>DesTitulo</th>
                         <th>Estado</th>
                         <th>ISBN</th>
                         <th>Sinopsis</th>
@@ -135,7 +135,7 @@
                 <tbody>
                     <tr *ngFor="let libros of librosLst; let i = index">
                         <td>{{libros.idlibro}}</td>
-                        <td>{{libros.titulo}}</td>
+                        <td>{{libros.destitulo}}</td>
                         <td>{{libros.estado}}</td>
                         <td>{{libros.isbn}}</td>
                         <td>{{libros.sinopsis}}</td>
@@ -154,7 +154,7 @@
                 <tfoot class="thead-dark">
                     <tr class="text-white">
                         <th>#</th>
-                        <th>Titulo</th>
+                        <th>DesTitulo</th>
                         <th>Estado</th>
                         <th>ISBN</th>
                         <th>Sinopsis</th>

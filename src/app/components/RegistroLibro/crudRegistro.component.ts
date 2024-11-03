@@ -35,7 +35,7 @@ export class CrudLibrosComponent implements OnInit {
     //************* */
     idlibroAct: number = 0;
     ideditorialAct: number = 0;
-    idgeneroAct: number = 0;
+    idgeneroAct: number = 0; 
     tituloAct: string = '';
     estadoAct: string = '';
     isbnAct: string = '';
@@ -53,6 +53,19 @@ export class CrudLibrosComponent implements OnInit {
         private _renderer2: Renderer2,
         @Inject(DOCUMENT) private _document: Document
     ) { }
+
+    cargarLibros(): void {
+        this.librosService.obtenerLibros().subscribe(
+          (libros) => {
+            console.log(libros)
+            this.librosLst = libros;
+            console.log(this.librosLst)
+          },
+          (error) => {
+            console.error('Error al cargar los libros:', error);
+            Swal.fire('Error', 'No se pudieron cargar los libros.', 'error');
+          }
+        ); }
 
     getEditorialesConocidas(): Editorial[] {
         return [
@@ -86,7 +99,7 @@ export class CrudLibrosComponent implements OnInit {
         ];
       }
 
-      getLibrosEnEspanol(): Libros[] {
+     /* getLibrosEnEspanol(): Libros[] {
         return [
           new Libros(1, 1, 1, 'Cien años de soledad', 'Usado', '978-3-16-148410-0', 'Una novela sobre la familia Buendía.', '1967-06-05', '', 15.99),
           new Libros(2, 1, 2, 'El amor en los tiempos del cólera', 'Usado', '978-3-16-148410-1', 'Historia de un amor imposible.', '1985-06-05', '', 14.99),
@@ -119,11 +132,14 @@ export class CrudLibrosComponent implements OnInit {
           new Libros(29, 15, 3, 'El extranjero', 'Usado', '978-3-16-148412-8', 'Una novela sobre la existencia y la absurdidad.', '1942-01-01', '', 13.00),
           new Libros(30, 15, 1, 'Cien años de soledad', 'Usado', '978-3-16-148412-9', 'La historia de la familia Buendía.', '1967-06-05', '', 14.99)
         ];
-      }
+      }*/
 
     //Ejemplo de añadir js directamente
     ngOnInit() {
-        this.listarLibros();
+        //this.listarLibros();
+        this.cargarLibros();
+        console.log(this.librosLst)
+
         this.listarGenero();
         this.listarEditorial();
         let body = this._document.body;
@@ -134,7 +150,7 @@ export class CrudLibrosComponent implements OnInit {
         this._renderer2.appendChild(body, script);
     }
 
-    listarLibros() {
+   /* listarLibros() {
         this.librosLst = this.getLibrosEnEspanol();
         
         // this.librosService.obtenerLibros()
@@ -142,7 +158,8 @@ export class CrudLibrosComponent implements OnInit {
         //         //console.log(data);
         //         this.librosLst = data;
         //     })
-    }
+    }*/
+
 
     listarGenero() {
         this.generoLst = this.getGenerosConocidos();
@@ -167,7 +184,7 @@ export class CrudLibrosComponent implements OnInit {
     poblarModal(libros: Libros){
         console.log('este son los libros',libros);
         this.idlibroAct = libros.idlibro
-        this.tituloAct = libros.titulo;
+        this.tituloAct = libros.destitulo;
         this.ideditorialAct = libros.ideditorial;
         this.idgeneroAct = libros.idgenero;
         this.estadoAct = libros.estado
@@ -247,7 +264,7 @@ export class CrudLibrosComponent implements OnInit {
             //         (error) => {
             //             Swal.fire({
             //                 position: "center",
-            //                 icon: "warning",
+             //                 icon: "warning",
             //                 title: "Algo Pasó!",
             //                 text: "No se logró guardar el libro, vuelva a intentar",
             //                 showConfirmButton: true,
@@ -292,7 +309,7 @@ export class CrudLibrosComponent implements OnInit {
                         this.fecha_inicioInput = '';
                         this.fecha_finalInput = '';
                         this.precio_baseInput = 0;
-                        this.listarLibros();
+                        this.cargarLibros();
 
                     this._document.getElementById('updateModal-close')?.click();
                 },

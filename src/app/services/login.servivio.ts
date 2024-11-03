@@ -39,6 +39,8 @@ export class AuthService {
     //private registerUrl = 'http://localhost:5030/api/Auth/register';
     private registerUrl = 'http://localhost:5048/register';
     private recuperaUSer = 'http://localhost:5048/recuperauser';
+    private cambiaPass = 'http://localhost:5048/actualizapass';
+
 
 
 
@@ -63,6 +65,10 @@ export class AuthService {
 
     recuperauser(userData: any): Observable<any>{
         return this.http.post<any>(this.recuperaUSer, userData);
+    }
+
+    cambiapass(userData: any):Observable<any> {
+        return this.http.post<any>(this.cambiaPass, userData);
     }
 
     // private getHttpOptions() {

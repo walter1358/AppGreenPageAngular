@@ -37,7 +37,7 @@ export class Libro2Component implements OnInit {
     this.idlibroInput = libros.idlibro;
     this.ideditorialInput = libros.ideditorial;
     this.idgeneroInput = libros.idgenero;
-    this.tituloInput = libros.titulo;
+    this.tituloInput = libros.destitulo;
     this.estadoInput = libros.estado;
     this.isbnInput = libros.isbn;
     this.fecha_inicioInput = libros.fecha_inicio;

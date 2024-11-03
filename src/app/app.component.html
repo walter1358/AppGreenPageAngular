@@ -150,41 +150,20 @@
                             <!-- Nav Item - User Information -->
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <div class="d-flex align-items-center">
-                                    <div *ngIf="userData; else noUserData" class="mr-2">
-                                        <span class="text-gray-600">Bienvenido, {{ userData.nomUsuario }}!</span>
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <div *ngIf="userData; else noUserData" class="mr-2">
+                                            <span style="color: #4a90e2; font-weight: bold;">Bienvenido, {{ userData.nomUsuario }}!<br>Perfil: {{ userData.perfilNombre }}</span>
+                                        </div>
+                                        <ng-template #noUserData>
+                                            <span class="text-gray-600">No has iniciado sesión.</span>
+                                        </ng-template>
+                                        <img class="img-profile rounded-circle" src="../assets/img/undraw_profile.svg" alt="User Profile">
                                     </div>
-                                    <ng-template #noUserData>
-                                        <span class="text-gray-600">No has iniciado sesión.</span>
-                                    </ng-template>
-                                    <img class="img-profile rounded-circle" src="../assets/img/undraw_profile.svg" alt="User Profile">
-                                </div>
-                            </a>
-                                <!-- Dropdown - User Information -->
-                                <!--<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                    aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Profile
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Settings
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Activity Log
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#" (click)="logout()">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Logout
-                                    </a>
-                                </div>-->
+                                </a>
                             </li>
-
                     </ul>
+
 
 
                 </nav>

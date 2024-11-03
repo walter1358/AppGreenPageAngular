@@ -6,3 +6,10 @@ export interface LoginModel {
 export interface UserModel{
     user: string;
 }
+
+export interface PassModel{
+    user: string;
+    pregunta: string;
+    respuesta: string;
+    pass: string;
+}

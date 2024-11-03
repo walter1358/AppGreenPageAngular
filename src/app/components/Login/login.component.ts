@@ -1,11 +1,12 @@
 import { Component, OnInit , EventEmitter, Output} from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "../../services/login.servivio";
-import { LoginModel, UserModel } from "../../model/login.model";
+import { LoginModel, PassModel, UserModel } from "../../model/login.model";
 import Swal from "sweetalert2";
 import { debug } from "node:console";
 import { response } from "express";
 import { responseInterceptor } from "http-proxy-middleware";
+import { resolve } from "node:path";
 
 
 @Component({
@@ -16,12 +17,15 @@ import { responseInterceptor } from "http-proxy-middleware";
 export class PagLoginComponent implements OnInit{
     
   isLoggedIn: boolean = false;  
-  loginInput: string = 'walter_cm93@hotmail.com';
+  loginInput: string = 'wcmore.93@gmail.com';
   passwordInput: string = 'Miclave24';
+  NewpassInput: string = '';
     
 
     // Propiedades para el formulario de registro7
     nomUsuario: string = '';
+    nomApellido: string = '';
+    dni: string = '';
     regLogin: string = '';
     regPassword: string = '';
     regPregunta: string = '';
@@ -47,17 +51,52 @@ export class PagLoginComponent implements OnInit{
               console.log(response.message); // "Login exitoso"
               console.log(response.userlogger);
               console.log(response.userlogger.pregunta);
-             /* Swal.fire({
-                icon: 'success',
-                title: 'Registro exitoso',
-                text: response.userlogger ||'El usuario ha sido registrado satisfactoriamente',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Ok'
-            });*/
-
             }
           )
+        }
 
+        cambiaPass(){
+          const usertxt = this.loginInput;
+          const pregunta = this.regPregunta;
+          const respuesta = this.regRespuesta;
+          const nuevopass = this.NewpassInput;
+
+          const passmodel : PassModel = {user: usertxt, pregunta: pregunta, respuesta:respuesta, pass: nuevopass};
+          console.log('Enviando datos de cambio de pass...', passmodel)
+
+          this.authService.cambiapass(passmodel).subscribe(
+            response => {
+              console.log(response.message)
+              Swal.fire({
+                icon: 'success',
+                title: 'Registro exitoso',
+                text:  response.message ||'El usuario ha sido registrado satisfactoriamente',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            });   
+            this.closeRecuperaModal();
+            //this.loginInput='';
+            this.regPregunta='';
+            this.regRespuesta='';
+            this.NewpassInput='';               
+
+            }
+            ,
+            error => {
+              console.error('Error al actualizar la contraseña:', error);
+              Swal.fire({
+                    position: "center",
+                    icon: "warning",
+                    title: "Algo pasó!",
+                    text: error.error || "errores",
+                    showConfirmButton: true,
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    timer: 5000 // en milisegundos
+                  });
+            }            
+          )          
+          
         }
     
         onLogin() {
@@ -146,6 +185,8 @@ export class PagLoginComponent implements OnInit{
     registerUser() {
       const userData = {
           nomUsuario: this.nomUsuario,
+          apeUsuario: this.nomApellido,
+          dni: this.dni,
           Login: this.regLogin,
           Pass: this.regPassword,
           Pregunta: this.regPregunta,
@@ -163,9 +204,19 @@ export class PagLoginComponent implements OnInit{
                   title: 'Registro exitoso',
                   text: 'El usuario ha sido registrado satisfactoriamente',
                   confirmButtonColor: '#3085d6',
-                  confirmButtonText: 'Ok'
+                  confirmButtonText: 'Ok',
+                  //position: 'top-end',  // Cambia la posición del modal
+                  toast: true,                     
               });
               this.closeRegisterModal();
+              this.nomUsuario = '';
+              this.nomApellido = '';
+              this.dni = '';
+              this.regLogin = '';
+              this.regPassword = '';
+              this.regPregunta = '';
+              this.regRespuesta  = '';         
+              
           },
           error => {
               Swal.fire({
@@ -173,7 +224,9 @@ export class PagLoginComponent implements OnInit{
                   title: 'Error de registro',
                   text: error.error || 'No se pudo registrar el usuario',
                   confirmButtonColor: '#d33',
-                  confirmButtonText: 'Cerrar'
+                  confirmButtonText: 'Cerrar',
+                 // position: 'top-end',  // Cambia la posición del modal
+                  toast: true,                     
               });
               console.log(error.error)
               console.error('Validation errors:', error.error.errors);
