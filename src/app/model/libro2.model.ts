@@ -3,7 +3,7 @@ export class Libro2 {
         public idlibro: number,
         public ideditorial: number,
         public idgenero: number,
-        public titulo: string,
+        public destitulo: string,
         public estado: string,
         public isbn: string,
         public sinopsis: string,

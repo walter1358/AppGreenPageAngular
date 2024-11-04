@@ -31,7 +31,7 @@
                     <div class="col" *ngFor="let libro2 of LibrosLst">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <h5 class="card-title"><strong>{{ libro2.titulo }}</strong></h5>
+                                <h5 class="card-title"><strong>{{ libro2.destitulo }}</strong></h5>
                                 <p class="card-text">{{ libro2.sinopsis | slice:0:70 }}{{ libro2.sinopsis.length > 70 ?
                                     '...' : '' }}</p>
                                 <p class="card-text">Fecha Inicio: {{ libro2.fecha_inicio | date:'dd-MM-yyyy' }}</p>

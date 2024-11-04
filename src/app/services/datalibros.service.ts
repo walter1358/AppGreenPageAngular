@@ -5,9 +5,10 @@ import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class DataServiceLibros {
-  private baseUrl = 'http://localhost:8080/api/libros';
+  //private baseUrl = 'http://localhost:8080/api/libros';
+  private baseUrl = 'http://localhost:5048/api/Libro'
   private authHeader = 'Basic amFtZXM6amFtZXMxMjM=';
 
   constructor(private httpLibros: HttpClient) { }

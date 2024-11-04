@@ -52,15 +52,27 @@
   <div class="modal-content">
     <span class="close" (click)="closeRecuperaModal()">&times;</span>
     <h2>Recuperar contraseña</h2>
-    <form class="recupera-form" (ngSubmit)="register()" #recuperaForm="ngForm"></form>
+    <form class="recupera-form" (ngSubmit)="cambiaPass()" #registerForm="ngForm">
     <div class="form-group">
       <label for="Login">Login</label>
       <input id="loginInput" type="text" [(ngModel)]="loginInput" name="loginInput" required disabled/>      
     </div>
     <div class="form-group">
-      <label for="Pregunta">pregunta</label>
+      <label for="Pregunta">Pregunta</label>
       <input id="regPregunta" type="text" [(ngModel)]="regPregunta" name="regPregunta" required disabled/>      
-    </div>        
+    </div>     
+    <div class="form-group">
+      <label for="Respuesta">Respuesta</label>
+      <input id="regRespuesta" type="text" [(ngModel)]="regRespuesta" name="regRespuesta" required/>      
+    </div>      
+    <div class="form-group">
+      <label for="password">Nuevo password</label>
+      <input id="NewpassInput" type="password" [(ngModel)]="NewpassInput" name="NewpassInput" required/>      
+    </div>   
+    <div class="form-actions">
+      <button type="submit" class="register-btn">Guardar</button>
+    </div>   
+  </form>  
   </div>
 </div>
 
@@ -79,6 +91,14 @@
         <label for="nomUsuario">Nombre</label>
         <input id="nomUsuario" type="text" [(ngModel)]="nomUsuario" name="nomUsuario" placeholder="Ingresa tu nombre" required />
       </div>
+      <div class="form-group">
+        <label for="nomApellido">Apellido</label>
+        <input id="nomApellido" type="text" [(ngModel)]="nomApellido" name="nomApellido" placeholder="Ingresa tu apellido" required />
+      </div>      
+      <div class="form-group">
+        <label for="dni">dni</label>
+        <input id="dni" type="text" [(ngModel)]="dni" name="dni" placeholder="Ingresa tu dni" required />
+      </div>         
       <div class="form-group">
         <label for="regLogin">Login</label>
         <input id="regLogin" type="text" [(ngModel)]="regLogin" name="regLogin" placeholder="Ingresa tu login" required />

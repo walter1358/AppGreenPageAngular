@@ -135,7 +135,7 @@ export class OfertaComponent implements OnInit {
     if (oferta) {
       const libro: Libros | undefined = this.LibrosLst.find(libro => libro.idlibro === oferta.idlibro);
       if (libro) {
-        return { titulo: libro.titulo, estado: libro.estado, isbn: libro.isbn, precio_base: libro.precio_base };
+        return { titulo: libro.destitulo, estado: libro.estado, isbn: libro.isbn, precio_base: libro.precio_base };
       }
     }
 
