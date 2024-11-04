@@ -54,6 +54,14 @@ export class CrudLibrosComponent implements OnInit {
         @Inject(DOCUMENT) private _document: Document
     ) { }
 
+    ngAfterViewInit() {
+
+  
+        this.cargarLibros();
+        
+  
+      } 
+
     cargarLibros(): void {
         this.librosService.obtenerLibros().subscribe(
           (libros) => {
@@ -189,7 +197,7 @@ export class CrudLibrosComponent implements OnInit {
         this.idgeneroAct = libros.idgenero;
         this.estadoAct = libros.estado
         this.isbnAct = libros.isbn;
-        this.sinopsisAct = libros.sinopsis;
+        this.sinopsisAct = libros.sinopsys;
         this.fecha_inicioAct = libros.fecha_inicio;
         this.fecha_finalAct = libros.fecha_final;
         this.precio_baseIAct = libros.precio_base;

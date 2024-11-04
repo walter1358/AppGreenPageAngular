@@ -7,9 +7,11 @@ export class Libros {
         public destitulo: string,
         public estado: string,
         public isbn: string,
-        public sinopsis: string,
+        public sinopsys: string,
         public fecha_inicio: string,
         public fecha_final: string,
-        public precio_base: number
+        public precio_base: number,
+        //public editorialDescripcion: string,  // Nueva propiedad para la descripción de la editorial
+        //public generoDescripcion: string       // Nueva propiedad para la descripción del géner
     ) { }
 }

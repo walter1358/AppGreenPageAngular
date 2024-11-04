@@ -126,6 +126,8 @@
                     <tr class="text-white">
                         <th>#</th>
                         <th>DesTitulo</th>
+                        <th>Editorial</th>
+                        <th>Genero</th>
                         <th>Estado</th>
                         <th>ISBN</th>
                         <th>Sinopsis</th>
@@ -134,11 +136,13 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let libros of librosLst; let i = index">
-                        <td>{{libros.idlibro}}</td>
+                        <td>{{i+1}}</td>
                         <td>{{libros.destitulo}}</td>
+                        <td>{{libros.ideditorial}}</td>
+                        <td>{{libros.idgenero}}</td>
                         <td>{{libros.estado}}</td>
                         <td>{{libros.isbn}}</td>
-                        <td>{{libros.sinopsis}}</td>
+                        <td>{{libros.sinopsys}}</td>
                         <td>
                             <button type="button" class="btn btn-warning" (click)="poblarModal(libros)"
                             data-toggle="modal" data-target="#updateModal">
@@ -155,6 +159,8 @@
                     <tr class="text-white">
                         <th>#</th>
                         <th>DesTitulo</th>
+                        <th>Editorial</th>
+                        <th>Genero</th>                        
                         <th>Estado</th>
                         <th>ISBN</th>
                         <th>Sinopsis</th>

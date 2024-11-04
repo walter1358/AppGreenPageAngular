@@ -22,6 +22,7 @@ export class LibrosService implements CanActivate {
     obtenerLibros() {
         return this.dataServiceLibros.cargarLibros();
     }
+    
     buscarLibros(id: number) {
         return this.dataServiceLibros.buscarLibros(id);
     }

@@ -67,7 +67,7 @@ export class Libro2Component implements OnInit {
 
   //Ejemplo de añadir js directamente
   ngOnInit() {
-    this.listarLibros();
+    //this.carg();
     let body = this._document.body;
     let script = this._document.createElement('script');
     script.innerHTML = '';
@@ -76,16 +76,37 @@ export class Libro2Component implements OnInit {
     body.appendChild(script);
   }
 
-  listarLibros() {
+  /*listarLibros() {
     this.LibrosLst = this.getLibrosEnEspanol();
     // this.librosService.obtenerLibros()
     //   .subscribe((data: any) => {
     //     //console.log(data);
     //     this.LibrosLst = data;
     //   })
-  }
+  }*/
 
-  getLibrosEnEspanol(): Libros[] {
+    ngAfterViewInit() {
+
+  
+      this.cargarLibros();
+      
+
+    } 
+
+  cargarLibros(): void {
+      this.librosService.obtenerLibros().subscribe(
+        (libros) => {
+          console.log(libros)
+          this.LibrosLst = libros;
+          console.log(this.LibrosLst)
+        },
+        (error) => {
+          console.error('Error al cargar los libros:', error);
+          Swal.fire('Error', 'No se pudieron cargar los libros.', 'error');
+        }
+      ); }
+
+ /* getLibrosEnEspanol(): Libros[] {
     return [
       new Libros(1, 1, 1, 'Cien años de soledad', 'Usado', '978-3-16-148410-0', 'Una novela sobre la familia Buendía.', '2024-09-24', '2024-10-11', 15.99),
       new Libros(2, 1, 2, 'El amor en los tiempos del cólera', 'Usado', '978-3-16-148410-1', 'Historia de un amor imposible.', '2024-09-24', '2024-10-11', 14.99),
@@ -118,7 +139,7 @@ export class Libro2Component implements OnInit {
       new Libros(29, 15, 3, 'El extranjero', 'Usado', '978-3-16-148412-8', 'Una novela sobre la existencia y la absurdidad.', '2024-09-24', '2024-10-11', 13.00),
       new Libros(30, 15, 1, 'Cien años de soledad', 'Usado', '978-3-16-148412-9', 'La historia de la familia Buendía.', '2024-09-24', '2024-10-11', 14.99)
     ];
-  }
+  }*/
 
   AgregarNuevaOferta() {
     let nuevaOf = new NuevaOferta(0, this.idlibroInput, this.precio_ofertaInput, this.tituloInput, this.estadoInput);
