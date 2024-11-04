@@ -1,0 +1,9 @@
+.form-title {
+    font-size: 2rem;
+    color: #28a745; /* Verde estilo Bootstrap */
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+  

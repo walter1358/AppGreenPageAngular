@@ -17,8 +17,8 @@ import { resolve } from "node:path";
 export class PagLoginComponent implements OnInit{
     
   isLoggedIn: boolean = false;  
-  loginInput: string = 'wcmore.93@gmail.com';
-  passwordInput: string = 'Miclave24';
+  loginInput: string = 'renzo@gmail.com';
+  passwordInput: string = 'Renzo1234';
   NewpassInput: string = '';
     
 
