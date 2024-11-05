@@ -1,4 +1,5 @@
-<h3 class="display-6">SUBASTAS</h3>
+
+<h3 class="display-6">SUBASTAS</h3> 
 <hr>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -28,19 +29,19 @@
                 </div>
                 <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
 
-                    <div class="col" *ngFor="let libro2 of LibrosLst">
+                    <div class="col" *ngFor="let subasta of subastasConDetalles">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <h5 class="card-title"><strong>{{ libro2.destitulo }}</strong></h5>
-                                <p class="card-text">{{ libro2.sinopsis | slice:0:70 }}{{ libro2.sinopsis.length > 70 ?
+                                <h5 class="card-title fw-bold" style="font-size: 1.3rem;"><strong>{{ subasta.tituloLibro }}</strong></h5>
+                                <p class="card-text" style="font-size: 0.9rem;">{{ subasta.sinopsis | slice:0:70 }}{{ subasta.sinopsis.length > 70 ?
                                     '...' : '' }}</p>
-                                <p class="card-text">Fecha Inicio: {{ libro2.fecha_inicio | date:'dd-MM-yyyy' }}</p>
-                                <p class="card-text">Fecha Fin : {{ libro2.fecha_final | date:'dd-MM-yyyy' }}</p>
+                                <p class="card-text text-success">Fecha Inicio: {{ subasta.fechaInicio | date:'dd-MM-yyyy' }}</p>
+                                <p class="card-text text-danger">Fecha Fin : {{ subasta.fechaFin | date:'dd-MM-yyyy' }}</p>
                             </div>
                             <div class="mb-5 d-flex justify-content-around">
-                                <h3>S/ {{ libro2.precio_base }}</h3>
+                                <h3 class="card-text fw-bold" style="font-size: 1.3rem;">S/ {{ subasta.precioBase }}</h3>
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#createModal"
-                                    (click)="cargarModal(libro2)">
+                                    (click)="cargarModal(subasta)">
                                     Ofertar
                                 </button>
                             </div>

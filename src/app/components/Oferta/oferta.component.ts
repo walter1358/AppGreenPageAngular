@@ -61,7 +61,7 @@ export class OfertaComponent implements OnInit {
       new NuevaOferta(9, 9, 78.90, 'Crónica de una muerte anunciada', 'Usado')
     ];
   }
-
+/*
   getLibrosEnEspanol(): Libros[] {
     return [
       new Libros(1, 1, 1, 'Cien años de soledad', 'Usado', '978-3-16-148410-0', 'Una novela sobre la familia Buendía.', '1967-06-05', '', 15.99),
@@ -95,7 +95,7 @@ export class OfertaComponent implements OnInit {
       new Libros(29, 15, 3, 'El extranjero', 'Usado', '978-3-16-148412-8', 'Una novela sobre la existencia y la absurdidad.', '1942-01-01', '', 13.00),
       new Libros(30, 15, 1, 'Cien años de soledad', 'Usado', '978-3-16-148412-9', 'La historia de la familia Buendía.', '1967-06-05', '', 14.99)
     ];
-  }
+  }*/
   listarOfertasPorId(idLibro: number) {
     
     this.OfertaLst = this.getOfertas();
@@ -106,7 +106,7 @@ export class OfertaComponent implements OnInit {
     //   });
   }
   listarLibros() {
-    this.LibrosLst = this.getLibrosEnEspanol();
+   // this.LibrosLst = this.getLibrosEnEspanol();
     // this.librosService.obtenerLibros()
     //   .subscribe((data: any) => {
     //     this.LibrosLst = data;
@@ -133,7 +133,7 @@ export class OfertaComponent implements OnInit {
 
     // Si encontramos la oferta, buscamos el libro correspondiente
     if (oferta) {
-      const libro: Libros | undefined = this.LibrosLst.find(libro => libro.idlibro === oferta.idlibro);
+      const libro: Libros | undefined = this.LibrosLst.find(libro => libro.idLibro === oferta.idlibro);
       if (libro) {
         return { titulo: libro.destitulo, estado: libro.estado, isbn: libro.isbn, precio_base: libro.precio_base };
       }

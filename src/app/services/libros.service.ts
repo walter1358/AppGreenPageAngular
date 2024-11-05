@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Libros } from "../model/libro.model";
+import { Libros, Librosup, soloLibro } from "../model/libro.model";
 import { DataServiceLibros } from "./datalibros.service";
 import { CanActivate, Router } from "@angular/router";
 import { AuthService } from "./login.servivio";
@@ -14,7 +14,7 @@ export class LibrosService implements CanActivate {
             return true;
         }
         else {
-            this.router.navigate(['']);
+            this.router.navigate(['']); 
             return false;
         }
     }
@@ -22,16 +22,20 @@ export class LibrosService implements CanActivate {
     obtenerLibros() {
         return this.dataServiceLibros.cargarLibros();
     }
+    
     buscarLibros(id: number) {
         return this.dataServiceLibros.buscarLibros(id);
     }
-    guardarLibros(libros: Libros) {
-        return this.dataServiceLibros.guardarLibros(libros);
+    guardarLibros(librosup: Librosup) {
+        return this.dataServiceLibros.guardarLibros(librosup);
     }
-    actualizarLibros(libros: Libros) {
-        return this.dataServiceLibros.modificarLibros(libros);
-    }
-    eliminarLibros(id: number) {
+        // librosService.ts
+        actualizarLibros(id: number, soloLibro: soloLibro) {
+            return this.dataServiceLibros.actualizarLibros(id, soloLibro);
+        }
+    
+
+    eliminarLibros(id: number) { 
         return this.dataServiceLibros.eliminarLibros(id);
     }
 }
