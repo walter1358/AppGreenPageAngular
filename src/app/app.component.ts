@@ -10,7 +10,7 @@ import { AuthService } from './services/login.servivio';
 })
 export class AppComponent implements OnInit{
   title = 'app-ventas';
-  userData: any;/** */
+  userData: any;/** */ 
   nombre: string = '';/** */
 
 

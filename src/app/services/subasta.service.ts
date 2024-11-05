@@ -14,9 +14,9 @@ export class SubastaService {
     buscarSubasta(id: number) {
         return this.dataServiceSubasta.buscarSubasta(id);
     }
-    guardarSubasta(subasta: Subasta) {
+    /*guardarSubasta(subasta: Subasta) {
         return this.dataServiceSubasta.guardarSubasta(subasta);
-    }
+    }*/
     actualizarSubasta(subasta: Subasta) {
         return this.dataServiceSubasta.modificarSubasta(subasta);
     }
@@ -24,3 +24,5 @@ export class SubastaService {
         return this.dataServiceSubasta.eliminarSubasta(id);
     }
 }
+
+

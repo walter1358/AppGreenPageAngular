@@ -37,6 +37,7 @@ export class PagLoginComponent implements OnInit{
 
 
         ngOnInit(): void {
+               
 
         }
 
@@ -183,6 +184,7 @@ export class PagLoginComponent implements OnInit{
 
 
     registerUser() {
+
       const userData = {
           nomUsuario: this.nomUsuario,
           apeUsuario: this.nomApellido,

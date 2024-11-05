@@ -40,8 +40,7 @@
                             <label for="generoSelect">Género:</label>
                             <select id="generoSelect" name="generoSelect" class="form-control"
                                 [(ngModel)]="idgeneroInput">
-                                <option *ngFor="let genero of generoLst" [value]="genero.idgenero">{{ genero.descripcion
-                                    }}</option>
+                                <option *ngFor="let genero of generoLst" [value]="genero.idgenero">{{ genero.descripcion }}</option>
                             </select>
                         </div>
 
@@ -125,6 +124,7 @@
                 <thead class="bg-secondary">
                     <tr class="text-white">
                         <th>#</th>
+                        <th>Id Libro</th>
                         <th>DesTitulo</th>
                         <th>Editorial</th>
                         <th>Genero</th>
@@ -137,9 +137,10 @@
                 <tbody>
                     <tr *ngFor="let libros of librosLst; let i = index">
                         <td>{{i+1}}</td>
+                        <td>{{libros.idLibro}}</td>
                         <td>{{libros.destitulo}}</td>
-                        <td>{{libros.ideditorial}}</td>
-                        <td>{{libros.idgenero}}</td>
+                        <td>{{libros.editorial}}</td>
+                        <td>{{libros.genero}}</td>
                         <td>{{libros.estado}}</td>
                         <td>{{libros.isbn}}</td>
                         <td>{{libros.sinopsys}}</td>
@@ -149,7 +150,7 @@
                             <span class="fa fa-edit"></span>
                         </button>
                             &nbsp;
-                            <a class="btn btn-danger" (click)="eliminarLibros(libros.idlibro)">
+                            <a class="btn btn-danger" (click)="eliminarLibros(libros.idLibro)">
                                 <span class="fa fa-trash"></span>
                             </a>
                         </td>
@@ -158,6 +159,7 @@
                 <tfoot class="thead-dark">
                     <tr class="text-white">
                         <th>#</th>
+                        <th>Id Libro</th>
                         <th>DesTitulo</th>
                         <th>Editorial</th>
                         <th>Genero</th>                        
@@ -207,10 +209,10 @@
 
                     <div class="form-group col-md-4">
                         <label for="editorialSelect">Editorial:</label>
-                        <select id="editorialSelect" name="editorialSelect" class="form-control"
-                            [(ngModel)]="ideditorialAct">
-                            <option *ngFor="let editorial of  editorialLst " [value]="editorial.ideditorial">{{
-                                editorial.nombre }}</option>
+                        <select id="editorialSelect" name="editorialSelect" class="form-control" [(ngModel)]="ideditorialAct">
+                            <option *ngFor="let editorial of editorialLst" [value]="editorial.ideditorial">
+                                {{ editorial.nombre }}
+                            </option>
                         </select>
                     </div>
 
@@ -256,7 +258,7 @@
                 </div>
 
 
-                <div class="row">
+                <!--<div class="row">
                     <div class="form-group col-md-4">
                         <label>Fecha Inicio:</label>
                         <input type="date" name="fechainicio" id="fechainicio" placeholder="fechainicio"
@@ -277,12 +279,12 @@
                             class="form-control" [(ngModel)]="precio_baseIAct">
                     </div>
 
-                </div>
+                </div>-->
             </form>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button class="btn btn-primary" (click)="modificarCliente()">
+            <button class="btn btn-primary" (click)="modificarCliente()" data-dismiss="modal">
                 Guardar
             </button>
         </div>

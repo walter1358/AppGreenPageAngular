@@ -1,5 +1,5 @@
 
-
+/*
 
 import { Component, OnInit } from '@angular/core';
 import { Subasta } from '../models/Subasta.model';
@@ -44,4 +44,4 @@ export class SubastaComponent implements OnInit {
       }
       
 }
-      
+      */

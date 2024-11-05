@@ -1,19 +1,19 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Libro2 } from "../model/libro2.model";
+import { Subasta } from "../model/Subasta.model";
 
 @Injectable()
 export class DataServiceLibros2 {
-    constructor(private httpLibros2: HttpClient) { }
+    constructor(private httpsubasta: HttpClient) { }
 
-    cargarLibros2() {
+    cargarSubasta() {
         const httpOptions = {
             headers: new HttpHeaders({
                 'content-type': 'application/json',
                 'Authorization': 'Basic OGY1YjZkYjQtOTI2NC00YTNjLWFlODctYmUwMTY3MjhjZjQ5'
             })
         }
-        return this.httpLibros2.get('http://localhost:8080/api/libros2', httpOptions);
+        return this.httpsubasta.get('http://localhost:5048/api/Subasta/listarSubastasConDetalles', httpOptions);
     }
 
     buscarLibros2(id: number) {
@@ -23,10 +23,10 @@ export class DataServiceLibros2 {
                 'Authorization': 'Basic amFtZXM6amFtZXMxMjM='
             })
         }
-        return this.httpLibros2.get('http://localhost:8080/api/libros2/' + id, httpOptions);
+        return this.httpsubasta.get('http://localhost:8080/api/libros2/' + id, httpOptions);
     }
 
-    guardarLibros2(libros2: Libro2) {
+    guardarLibros2(libros2: Subasta) {
         const httpOptions = {
             headers: new HttpHeaders({
                 'content-type': 'application/json',
@@ -34,17 +34,17 @@ export class DataServiceLibros2 {
             })
         }
 
-        return this.httpLibros2.post('http://localhost:8080/api/libros2',libros2,httpOptions);
+        return this.httpsubasta.post('http://localhost:8080/api/libros2',libros2,httpOptions);
     }
 
-    modificarLibros2(libros2: Libro2) {
+    modificarLibros2(libros2: Subasta) {
         const httpOptions = {
             headers: new HttpHeaders({
                 'content-type': 'application/json',
                 'Authorization': 'Basic amFtZXM6amFtZXMxMjM='
             })
         }
-        return this.httpLibros2.put('http://localhost:8080/api/libros2'+libros2.idlibro, libros2,httpOptions);
+      //  return this.httpsubasta.put('http://localhost:8080/api/libros2'+libros2.idlibro, libros2,httpOptions);
     }
 
     eliminarLibros2(id: Number) {
@@ -56,7 +56,7 @@ export class DataServiceLibros2 {
         }
         let url: string;
         url = 'http://localhost:8080/api/libros2/' + id;
-        return this.httpLibros2.delete(url,httpOptions);
+        return this.httpsubasta.delete(url,httpOptions);
     }
 
 }

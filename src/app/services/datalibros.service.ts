@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Libros } from "../model/libro.model";
+import { Libros, Librosup, soloLibro } from "../model/libro.model";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -22,25 +22,29 @@ export class DataServiceLibros {
     };
   }
 
-  cargarLibros(): Observable<Libros[]> {
-    return this.httpLibros.get<Libros[]>(this.baseUrl, this.getHttpOptions());
-  }
+   cargarLibros(): Observable<Libros[]> {
+    return this.httpLibros.get<Libros[]>(this.baseUrl, this.getHttpOptions())
+    }
 
   buscarLibros(id: number): Observable<Libros> {
     return this.httpLibros.get<Libros>(`${this.baseUrl}/${id}`, this.getHttpOptions());
   }
 
-  guardarLibros(libros: Libros): Observable<Libros> {
+  guardarLibros(librosup: Librosup): Observable<Libros> {
 
-    if (libros.idlibro === 0) {
-      return this.httpLibros.post<Libros>('http://localhost:8080/api/libros', libros, this.getHttpOptions());
+    if (librosup.idlibro === 0) {
+      return this.httpLibros.post<Libros>('http://localhost:5048/api/Libro', librosup, this.getHttpOptions());
     }
     else {
-      return this.httpLibros.put<Libros>('http://localhost:8080/api/libros', libros, this.getHttpOptions());
+      return this.httpLibros.put<Libros>('http://localhost:5048/api/Libro', librosup, this.getHttpOptions());
     }
-
-
   }
+
+// dataServiceLibros.ts
+actualizarLibros(id: number, soloLibro: soloLibro): Observable<any> {
+  return this.httpLibros.put(`http://localhost:5048/api/Libro/${id}`, soloLibro, this.getHttpOptions());
+}
+
 
   modificarLibros(libros: Libros): Observable<Libros> {
     return this.httpLibros.put<Libros>('http://localhost:8080/api/libros', libros, this.getHttpOptions());

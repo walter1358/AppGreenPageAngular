@@ -7,14 +7,18 @@ import { AuthService } from '../../services/login.servivio';
 import { Router } from '@angular/router';
 import { Libros } from '../../model/libro.model';
 import { LibrosService } from '../../services/libros.service';
+import { Libros2Service } from '../../services/libros2.service';
+import { SubastaService } from '../../services/subasta.service';
+import { Subasta } from '../../model/Subasta.model';
 
 @Component({
   selector: 'app-libro2',
   templateUrl: './subasta.component.html',
-  styleUrl: './subasta.component.css'
+  styleUrls: ['./subasta.component.css']
 })
 export class Libro2Component implements OnInit {
-  LibrosLst: Libros[] = [];
+  subastaLst: Subasta[] = [];
+  subastasConDetalles: Subasta[] = [];
   titulo: string = 'SUBASTA x';
 
   public idlibroInput: number = 0;
@@ -32,21 +36,16 @@ export class Libro2Component implements OnInit {
   public idnuevaofertaInput: number = 0;
   public precio_ofertaInput: number = 0;
 
-  cargarModal(libros: Libros) {
-    console.log('este es el cliente', libros);
-    this.idlibroInput = libros.idlibro;
-    this.ideditorialInput = libros.ideditorial;
-    this.idgeneroInput = libros.idgenero;
-    this.tituloInput = libros.destitulo;
-    this.estadoInput = libros.estado;
-    this.isbnInput = libros.isbn;
-    this.fecha_inicioInput = libros.fecha_inicio;
-    this.fecha_finalInput = libros.fecha_final;
-    this.precio_baseInput = libros.precio_base;
+  cargarModal(subasta: Subasta) {
+    console.log('este es el cliente', subasta);
+    this.tituloInput = subasta.tituloLibro;
+    this.fecha_inicioInput = subasta.fechaInicio;
+    this.fecha_finalInput = subasta.fechaFin;
+    this.precio_baseInput = subasta.precioBase;
 
   }
 
-  constructor(private librosService: LibrosService,
+  constructor(private subastaService: SubastaService,
     private authService: AuthService,
     private router: Router,
     private nuevaOfertaService: NuevaOfertaService,
@@ -88,23 +87,27 @@ export class Libro2Component implements OnInit {
     ngAfterViewInit() {
 
   
-      this.cargarLibros();
+      this.cargarSubasta();
       
 
     } 
 
-  cargarLibros(): void {
-      this.librosService.obtenerLibros().subscribe(
-        (libros) => {
-          console.log(libros)
-          this.LibrosLst = libros;
-          console.log(this.LibrosLst)
+  cargarSubasta(): void {
+      this.subastaService.obtenerSubasta().subscribe(
+        (subasta) => {
+          console.log(subasta)
+          this.subastasConDetalles = subasta;
+          //this.subastaList = subasta;
+          console.log(this.subastasConDetalles)
         },
         (error) => {
           console.error('Error al cargar los libros:', error);
           Swal.fire('Error', 'No se pudieron cargar los libros.', 'error');
         }
       ); }
+
+ 
+      
 
  /* getLibrosEnEspanol(): Libros[] {
     return [
