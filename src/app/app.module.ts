@@ -25,6 +25,7 @@ import { PagLoginComponent } from './components/Login/login.component';
 import { OfertaComponent } from './components/Oferta/oferta.component';
 import { DatePipe } from '@angular/common';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ComponentsComponent } from './GestionUsuarios/components/components.component';
 
 //import { DataTablesModule } from 'angular-datatables';
 
@@ -34,7 +35,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     CrudLibrosComponent,
     Libro2Component,
     PagLoginComponent,
-    OfertaComponent
+    OfertaComponent,
+    ComponentsComponent
     // SubastaComponent
   ],
   imports: [

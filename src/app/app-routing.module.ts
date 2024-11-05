@@ -5,6 +5,7 @@ import { Libro2Component } from './components/RegistroSubasta/libro2.component';
 import { PagLoginComponent } from './components/Login/login.component';
 import { OfertaComponent } from './components/Oferta/oferta.component';
 import { LibrosService } from './services/libros.service';
+import { ComponentsComponent } from './GestionUsuarios/components/components.component';
 
 
 
@@ -28,6 +29,13 @@ const routes: Routes = [
      canActivate: [LibrosService],
      children: []
    },
+
+   {
+    path: 'GestionUsuario',
+    component: ComponentsComponent,
+    canActivate: [LibrosService],
+    children: []
+  },
 
  {
      path: 'IngresoLogin',

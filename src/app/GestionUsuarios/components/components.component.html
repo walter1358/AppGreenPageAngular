@@ -1,0 +1,111 @@
+<div class="container d-flex flex-column align-items-center">
+  <!-- Título del formulario -->
+  <h2 class="form-title">Crear Usuario</h2>
+
+  <!-- Formulario de usuario -->
+  <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" novalidate class="col-md-6 col-lg-4">
+    
+    <!-- Campo de Nombre -->
+    <div class="form-group">
+      <label for="firstName">Nombre:</label>
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        class="form-control"
+        [(ngModel)]="user.firstName"
+        #firstName="ngModel"
+        required
+        minlength="2"
+      />
+      <div *ngIf="firstName.invalid && firstName.touched" class="text-danger">
+        <small *ngIf="firstName.errors?.['required']">El nombre es obligatorio.</small>
+        <small *ngIf="firstName.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Campo de Apellido -->
+    <div class="form-group">
+      <label for="lastName">Apellido:</label>
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        class="form-control"
+        [(ngModel)]="user.lastName"
+        #lastName="ngModel"
+        required
+        minlength="2"
+      />
+      <div *ngIf="lastName.invalid && lastName.touched" class="text-danger">
+        <small *ngIf="lastName.errors?.['required']">El apellido es obligatorio.</small>
+        <small *ngIf="lastName.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      </div>
+    </div>
+
+    <!-- Campo de Correo Electrónico -->
+    <div class="form-group">
+      <label for="email">Correo electrónico:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-control"
+        [(ngModel)]="user.email"
+        #email="ngModel"
+        required
+        email
+      />
+      <div *ngIf="email.invalid && email.touched" class="text-danger">
+        <small *ngIf="email.errors?.['required']">El correo es obligatorio.</small>
+        <small *ngIf="email.errors?.['email']">Ingrese un correo válido.</small>
+      </div>
+    </div>
+
+    <!-- Campo de Contraseña -->
+    <div class="form-group">
+      <label for="password">Contraseña:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="form-control"
+        [(ngModel)]="user.password"
+        #password="ngModel"
+        required
+        minlength="8"
+        pattern="^(?=.*[A-Z]).{8,}$"
+      />
+      <div *ngIf="password.invalid && password.touched" class="text-danger">
+        <small *ngIf="password.errors?.['required']">La contraseña es obligatoria.</small>
+        <small *ngIf="password.errors?.['minlength']">Debe tener al menos 8 caracteres.</small>
+        <small *ngIf="password.errors?.['pattern']">Debe contener al menos una letra mayúscula.</small>
+      </div>
+    </div>
+
+    <!-- Selección de Perfil -->
+    <div class="form-group">
+      <label for="profile">Perfil:</label>
+      <select
+        id="profile"
+        name="profile"
+        class="form-control"
+        [(ngModel)]="user.profile"
+        #profile="ngModel"
+        required
+      >
+        <option value="" disabled selected>Selecciona un perfil</option>
+        <option value="Ofertador">Ofertador</option>
+        <option value="Administrador">Administrador</option>
+      </select>
+      <div *ngIf="profile.invalid && profile.touched" class="text-danger">
+        <small *ngIf="profile.errors?.['required']">El perfil es obligatorio.</small>
+      </div>
+    </div>
+
+    <!-- Botón de Envío en Verde -->
+    <button type="submit" class="btn btn-success btn-block" [disabled]="userForm.invalid">
+      Crear Usuario
+    </button>
+  </form>
+</div>

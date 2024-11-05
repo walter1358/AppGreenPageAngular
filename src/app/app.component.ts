@@ -56,4 +56,8 @@ ngOnClear(){
     this.router.navigate(['/nuevaOferta']);
   }
 
+  geSubmit() {
+    this.router.navigate(['/GestionUsuario']);
+  }
+
 }
