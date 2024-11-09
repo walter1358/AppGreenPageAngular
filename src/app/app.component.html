@@ -18,11 +18,11 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item" *ngIf="!authService.isOfertador()">
+            <!--<li class="nav-item" *ngIf="!authService.isOfertador()">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
-            </li>
+            </li>-->0
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -57,7 +57,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <li class="nav-item" *ngIf="!authService.isOfertador()">
+            <!--<li class="nav-item" *ngIf="!authService.isOfertador()">
                 <a class="nav-link" href="">
                     <i class="fa-solid fa-file-invoice"></i>
                     <span >Cuenta</span></a>
@@ -73,10 +73,10 @@
                 <a class="nav-link" href="">
                     <i class="fa-solid fa-credit-card"></i>
                     <span>Pagos</span></a>
-            </li>
+            </li>-->
 
 
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="!authService.isOfertador()">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-book-open"></i>
@@ -118,7 +118,6 @@
 
             <!-- Main Content -->
             <div id="content">
-
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -129,7 +128,10 @@
 
                     <!-- Topbar Search -->
                     <!-- <h4 style="color:rgba(12, 122, 40, 0.932)">Plataforma de venta de libros</h4> -->
-
+                    <div>
+                        <span style="color: #4a90e2; font-weight: bold;">{{ serverTime | date: 'MMM d, y, h:mm:ss a' }}</span>
+                    </div>            
+        
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -165,6 +167,7 @@
 
                        <!-- <div class="topbar-divider d-none d-sm-block"></div>-->
 
+
                             <!-- Nav Item - User Information -->
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -179,7 +182,7 @@
                                         <img class="img-profile rounded-circle" src="../assets/img/undraw_profile.svg" alt="User Profile">
                                     </div>
                                 </a>
-                            </li>
+                                </li>                                                            
                     </ul>
 
 

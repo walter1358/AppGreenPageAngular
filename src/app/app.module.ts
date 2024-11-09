@@ -27,6 +27,7 @@ import { DatePipe } from '@angular/common';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ComponentsComponent } from './GestionUsuarios/components/components.component';
 
+
 //import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
@@ -37,7 +38,7 @@ import { ComponentsComponent } from './GestionUsuarios/components/components.com
     PagLoginComponent,
     OfertaComponent,
     ComponentsComponent
-    // SubastaComponent
+        // SubastaComponent
   ],
   imports: [
     BrowserModule,

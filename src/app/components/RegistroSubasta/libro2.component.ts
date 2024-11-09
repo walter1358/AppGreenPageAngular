@@ -10,6 +10,14 @@ import { LibrosService } from '../../services/libros.service';
 import { Libros2Service } from '../../services/libros2.service';
 import { SubastaService } from '../../services/subasta.service';
 import { Subasta } from '../../model/Subasta.model';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { subscribe } from 'node:diagnostics_channel';
+import { response } from 'express';
+import { error } from 'node:console';
+
+
+
+
 
 @Component({
   selector: 'app-libro2',
@@ -18,6 +26,17 @@ import { Subasta } from '../../model/Subasta.model';
 })
 export class Libro2Component implements OnInit {
   subastaLst: Subasta[] = [];
+  hoy: Date = this.obtenerFechaSinHora(new Date());
+  intervalo: any;  
+  idSubasta = 1;  // Reemplaza con el ID real de la subasta
+  auctionId = 1;
+  tiempoRestante = 0;
+  endTime: string = '';
+
+
+
+
+
   subastasConDetalles: Subasta[] = [];
   titulo: string = 'SUBASTA x';
 
@@ -31,38 +50,25 @@ export class Libro2Component implements OnInit {
   public fecha_inicioInput: string = '';
   public fecha_finalInput: string = '';
   public precio_baseInput: number = 0;
+  public timeRemaining: number = 1;
+
+
 
   //Nuva Oferta
   public idnuevaofertaInput: number = 0;
   public precio_ofertaInput: number = 0;
 
-  cargarModal(subasta: Subasta) {
-    console.log('este es el cliente', subasta);
-    this.tituloInput = subasta.tituloLibro;
-    this.fecha_inicioInput = subasta.fechaInicio;
-    this.fecha_finalInput = subasta.fechaFin;
-    this.precio_baseInput = subasta.precioBase;
-
-  }
-
-  constructor(private subastaService: SubastaService,
-    private authService: AuthService,
-    private router: Router,
-    private nuevaOfertaService: NuevaOfertaService,
-    private _renderer2: Renderer2,
-    @Inject(DOCUMENT) private _document: Document
-  ) { }
-
-
-  onSubmit() {
-    this.router.navigate(['/RegistroLibros']);
-  }
-
-
-  ofSubmit() {
-    this.router.navigate(['/nuevaOferta']);
-  }
-
+    constructor(
+      private subastaService: SubastaService,
+      private authService: AuthService,
+      private router: Router,
+      private nuevaOfertaService: NuevaOfertaService,
+      private _renderer2: Renderer2,
+      @Inject(DOCUMENT) private _document: Document,    
+      
+    ) 
+    {    
+    }
 
   //Ejemplo de añadir js directamente
   ngOnInit() {
@@ -73,29 +79,155 @@ export class Libro2Component implements OnInit {
     script.src = 'assets/sbadmin2/js/demo/datatables-demo.js';
     script.async = true;
     body.appendChild(script);
-  }
+    //this.iniciarCronometro();
+    //this.cargarSubasta();    
 
-  /*listarLibros() {
-    this.LibrosLst = this.getLibrosEnEspanol();
-    // this.librosService.obtenerLibros()
-    //   .subscribe((data: any) => {
-    //     //console.log(data);
-    //     this.LibrosLst = data;
-    //   })
-  }*/
+ }
 
-    ngAfterViewInit() {
+
+
 
   
-      this.cargarSubasta();
-      
+    onSubmit() {
+      this.router.navigate(['/RegistroLibros']);
+    }
 
+
+    ofSubmit() {
+      this.router.navigate(['/nuevaOferta']);
+    }
+
+
+    fechaComoFecha(fechaString: string): Date {
+      return new Date(fechaString);
+    }
+  
+    obtenerFechaSinHora(fecha: Date): Date {
+      return new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
+    }  
+  
+    cargarModal(subasta: Subasta) {
+      console.log('este es la subasta', subasta);
+      this.idSubasta = subasta.idsubasta
+      this.idlibroInput = subasta.idlibro;
+      this.estadoInput = subasta.estado;
+      this.tituloInput = subasta.tituloLibro;
+      this.fecha_inicioInput = subasta.fechaInicio;
+      this.fecha_finalInput = subasta.fechaFin;
+      this.precio_baseInput = subasta.precioBase;
+      //this.iniciarSubasta(subasta.idsubasta);
+      // this.ofertar(subasta);
+      //this.detenerCronometro();
+      this.iniciarSubasta()
+  
+    }
+  
+    iniciarSubasta(): void {
+
+      this.subastaService.iniciarSubasta(this.idSubasta).subscribe(
+        (response) => {
+          console.log(response);
+          this.endTime = response.endtime;  // Guardamos el tiempo de fin de la subasta
+          this.consultarTiempoRestante();
+        },
+        (error) => {
+          console.error('Error al iniciar la subasta', error);
+        }
+      );
+    }
+ 
+    consultarTiempoRestante(): void {
+      this.subastaService.obtenerTiempoRestante(this.idSubasta).subscribe(
+        (response) => {
+          console.log(response);
+          this.tiempoRestante = response.tiempoRestante;
+          this.iniciarCronometro();
+        },
+        (error) => {
+          console.error('Error al obtener el tiempo restante', error);
+        }
+      );
+    }    
+
+    cerrarSubaste() : void
+    {
+      this.subastaService.cerrarSubasta(this.idSubasta).subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) =>{
+          console.error('error al intentar cerrar la subasta', error);
+        }
+      )
+    }       
+        
+  // Función para iniciar el cronómetro
+  iniciarCronometro(  ): void {
+    if (this.intervalo) {
+      clearInterval(this.intervalo); // Detener cualquier cronómetro existente
+    }
+  
+    //
+    //this.tiempoRestante = 30; // Restablecer el cronómetro a 30 segundos
+    this.intervalo = setInterval(() => {
+      if (this.tiempoRestante > 0) {
+        this.tiempoRestante--;
+      } else {
+        clearInterval(this.intervalo); // Detener el cronómetro cuando llegue a 0
+        this.mostrarAlertaSubastaTerminada(); // Llamar a la función para mostrar la alerta
+      }
+    }, 1000);
+  }  
+
+// Función para mostrar la alerta
+mostrarAlertaSubastaTerminada(): void {
+  Swal.fire({
+    icon: 'info',
+    title: 'Subasta terminada',
+    text: 'La subasta ha finalizado.',
+    confirmButtonText: 'Aceptar'
+  }).then((result) => {
+    if (result.isConfirmed){
+    
+      const closeModalButton = document.getElementById('cerrarmodal');
+      if (closeModalButton) {
+          closeModalButton.click();
+      }
+      
+      //location.reload();
+      this.cerrarSubaste();
+      this.cargarSubasta();
+
+    }
+  });
+
+}  
+
+  // Llamar a esta función cuando se haga clic en "Ofertar"
+  ofertar(subasta: any): void {
+    this.iniciarCronometro();
+    // Cualquier lógica adicional que quieras hacer al ofertar
+  }
+  
+  // Verifica si el botón de ofertar debe estar habilitado o deshabilitado
+  obtenerBotonEstado(subasta: any): boolean {
+    return this.tiempoRestante > 0;
+  }
+
+  // Detener el cronómetro si es necesario
+  detenerCronometro(): void {
+    clearInterval(this.intervalo);
+  }  
+ 
+    ngAfterViewInit() {
+      this.cargarSubasta();
     } 
 
   cargarSubasta(): void {
       this.subastaService.obtenerSubasta().subscribe(
         (subasta) => {
           console.log(subasta)
+          console.log('la fecha de hoy es: ' , this.hoy)
           this.subastasConDetalles = subasta;
           //this.subastaList = subasta;
           console.log(this.subastasConDetalles)
@@ -104,45 +236,25 @@ export class Libro2Component implements OnInit {
           console.error('Error al cargar los libros:', error);
           Swal.fire('Error', 'No se pudieron cargar los libros.', 'error');
         }
-      ); }
+      ); 
 
- 
-      
-
- /* getLibrosEnEspanol(): Libros[] {
-    return [
-      new Libros(1, 1, 1, 'Cien años de soledad', 'Usado', '978-3-16-148410-0', 'Una novela sobre la familia Buendía.', '2024-09-24', '2024-10-11', 15.99),
-      new Libros(2, 1, 2, 'El amor en los tiempos del cólera', 'Usado', '978-3-16-148410-1', 'Historia de un amor imposible.', '2024-09-24', '2024-10-11', 14.99),
-      new Libros(3, 2, 1, 'La sombra del viento', 'Usado', '978-3-16-148410-2', 'Una historia de misterio en la Barcelona de la postguerra.', '2024-09-24', '2024-10-11', 12.99),
-      new Libros(4, 2, 3, 'Los detectives salvajes', 'Usado', '978-3-16-148410-3', 'Una novela sobre poetas en México.', '2024-09-24', '2024-10-11', 18.50),
-      new Libros(5, 3, 2, 'Ficciones', 'Usado', '978-3-16-148410-4', 'Cuentos de realidad y fantasía de Borges.', '2024-09-24', '2024-10-11', 10.99),
-      new Libros(6, 3, 1, 'Rayuela', 'Usado', '978-3-16-148410-5', 'Una novela innovadora y experimental de Julio Cortázar.', '2024-09-24', '2024-10-11', 16.75),
-      new Libros(7, 4, 1, 'El túnel', 'Usado', '978-3-16-148410-6', 'Un thriller psicológico de Ernesto Sabato.', '2024-09-24', '2024-10-11', 11.50),
-      new Libros(8, 4, 4, 'Pedro Páramo', 'Usado', '978-3-16-148410-7', 'Una obra maestra de la literatura mexicana.', '2024-09-24', '2024-10-11', 12.00),
-      new Libros(9, 5, 2, 'Crónica de una muerte anunciada', 'Usado', '978-3-16-148410-8', 'Un relato sobre el destino y la fatalidad.', '2024-09-24', '2024-10-11', 13.25),
-      new Libros(10, 5, 3, 'La casa de los espíritus', 'Usado', '978-3-16-148410-9', 'Una saga familiar con elementos sobrenaturales.', '2024-09-24', '2024-10-11', 15.50),
-      new Libros(11, 6, 1, 'Los miserables', 'Usado', '978-3-16-148411-0', 'Una novela sobre la redención y la justicia.', '2024-09-24', '2024-10-11', 9.99),
-      new Libros(12, 6, 2, 'Don Quijote de la Mancha', 'Usado', '978-3-16-148411-1', 'La historia de un noble loco y sus aventuras.', '2024-09-24', '2024-10-11', 10.50),
-      new Libros(13, 7, 3, 'El Aleph', 'Usado', '978-3-16-148411-2', 'Cuentos de Borges que exploran el infinito.', '2024-09-24', '2024-10-11', 12.25),
-      new Libros(14, 7, 1, 'Como agua para chocolate', 'Nuevo', '978-3-16-148411-3', 'Una novela sobre amor y comida en México.', '2024-09-24', '2024-10-11', 14.75),
-      new Libros(15, 8, 2, 'El jardín secreto', 'Usado', '978-3-16-148411-4', 'Un cuento sobre la redención y la naturaleza.', '2024-09-24', '2024-10-11', 10.00),
-      new Libros(16, 8, 4, 'La tregua', 'Usado', '978-3-16-148411-5', 'Una novela sobre la vida de un hombre solitario.', '2024-09-24', '2024-10-11', 11.00),
-      new Libros(17, 9, 1, 'Cuentos de la selva', 'Usado', '978-3-16-148411-6', 'Relatos sobre la selva y la vida salvaje.', '2024-09-24', '2024-10-11', 12.50),
-      new Libros(18, 9, 2, 'El perro rabioso', 'Usado', '978-3-16-148411-7', 'Un cuento sobre la vida en el campo.', '2024-09-24', '2024-10-11', 9.75),
-      new Libros(19, 10, 3, 'La invención de Morel', 'Usado', '978-3-16-148411-8', 'Una historia de amor y realidad.', '2024-09-24', '2024-10-11', 13.00),
-      new Libros(20, 10, 1, 'Niebla', 'Usado', '978-3-16-148411-9', 'Una novela sobre la identidad y la locura.', '2024-09-24', '2024-10-11', 11.25),
-      new Libros(21, 11, 4, 'Historias de la guerra de los mundos', 'Usado', '978-3-16-148412-0', 'Un relato sobre la guerra y sus consecuencias.', '2024-09-24', '2024-10-11', 15.00),
-      new Libros(22, 11, 1, 'Cuentos de la selva', 'Usado', '978-3-16-148412-1', 'Cuentos sobre la vida en la selva.', '2024-09-24', '2024-10-11', 12.50),
-      new Libros(23, 12, 2, 'Mujer que sabe', 'Usado', '978-3-16-148412-2', 'Un libro sobre la fortaleza de la mujer.', '2024-09-24', '2024-10-11', 13.75),
-      new Libros(24, 12, 3, 'La casa de la playa', 'Usado', '978-3-16-148412-3', 'Una novela sobre amor y pérdida.', '2024-09-24', '2024-10-11', 14.50),
-      new Libros(25, 13, 1, 'La reina del sur', 'Usado', '978-3-16-148412-4', 'La historia de una mujer poderosa.', '2024-09-24', '2024-10-11', 15.99),
-      new Libros(26, 13, 4, 'El mar y el tiempo', 'Usado', '978-3-16-148412-5', 'Una novela sobre el paso del tiempo.', '2024-09-24', '2024-10-11', 16.00),
-      new Libros(27, 14, 1, 'La vida es sueño', 'Usado', '978-3-16-148412-6', 'Una obra teatral sobre la realidad y los sueños.', '2024-09-24', '2024-10-11', 11.50),
-      new Libros(28, 14, 2, 'Los pazos de Ulloa', 'Usado', '978-3-16-148412-7', 'Una novela sobre la sociedad española.', '2024-09-24', '2024-10-11', 12.25),
-      new Libros(29, 15, 3, 'El extranjero', 'Usado', '978-3-16-148412-8', 'Una novela sobre la existencia y la absurdidad.', '2024-09-24', '2024-10-11', 13.00),
-      new Libros(30, 15, 1, 'Cien años de soledad', 'Usado', '978-3-16-148412-9', 'La historia de la familia Buendía.', '2024-09-24', '2024-10-11', 14.99)
-    ];
-  }*/
+  
+  
+      /*this.subastaService.obtenerTiempoRestante(this.idSubasta).subscribe(
+        (data: any) => {
+          this.tiempoRestante = data.tiempoRestante;
+  
+          if (this.tiempoRestante > 0) {
+            this.iniciarCronometro();
+          }
+        },
+        (error) => {
+          console.error('Error al cargar el tiempo restante:', error);
+          Swal.fire('Error', 'No se pudo cargar el tiempo restante', 'error');
+        }
+      );     */
+    
+    }
 
   AgregarNuevaOferta() {
     let nuevaOf = new NuevaOferta(0, this.idlibroInput, this.precio_ofertaInput, this.tituloInput, this.estadoInput);
@@ -196,3 +308,4 @@ export class Libro2Component implements OnInit {
   }
 
 }
+
