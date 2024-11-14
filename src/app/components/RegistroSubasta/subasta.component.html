@@ -10,7 +10,14 @@
         <div class="container py-5">
             <h1 class="text-center">Lista de Subastas</h1>
             <div>
-
+                <div class="row justify-content-end"></div>
+                    <div class=" justify-content-end">
+                        <div class="form-group col-md-1">
+                            <button class="btn btn-primary"  (click)="cargarSubasta()"> 
+                                <i class="fas fa-sync"></i>
+                            </button>                            
+                        </div>
+                    </div>
                 <div class="row justify-content-end">
                     <div class=" justify-content-end">
                         <div class="form-group col-md-1">
@@ -27,24 +34,41 @@
                         </div>
                     </div>
                 </div>
-                <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
+                <div class="row row-cols-1 row-cols-md-3 g-4 py-5" >
 
-                    <div class="col" *ngFor="let subasta of subastasConDetalles">
-                        <div class="card mb-4">
+                    <div class="col" *ngFor="let subasta of subastasConDetalles "> <!--| -->
+                        <div class="card mb-4" 
+                        [ngClass]="{ 'bg-light': fechaComoFecha(subasta.fechaFin) < hoy, 'text-muted': fechaComoFecha(subasta.fechaFin) < hoy }">
+                       <!-- Otros contenidos de la tarjeta -->
+                        </div>
                             <div class="card-body">
                                 <h5 class="card-title fw-bold" style="font-size: 1.3rem;"><strong>{{ subasta.tituloLibro }}</strong></h5>
                                 <p class="card-text" style="font-size: 0.9rem;">{{ subasta.sinopsis | slice:0:70 }}{{ subasta.sinopsis.length > 70 ?
-                                    '...' : '' }}</p>
-                                <p class="card-text text-success">Fecha Inicio: {{ subasta.fechaInicio | date:'dd-MM-yyyy' }}</p>
-                                <p class="card-text text-danger">Fecha Fin : {{ subasta.fechaFin | date:'dd-MM-yyyy' }}</p>
+                                    '...' : '' }}</p> 
+                                <p class="card-text text-success"
+                                [ngClass]="{ 'card-text text-success': (fechaComoFecha(subasta.fechaFin) >= hoy), 'text-muted': (fechaComoFecha(subasta.fechaFin) < hoy) }">                              
+                                Fecha Inicio: {{ subasta.fechaInicio | date:'dd-MM-yyyy' }}</p>                                
+                                <p class="card-text" 
+                                [ngClass]="{ 'text-danger': (fechaComoFecha(subasta.fechaFin) >= hoy), 'text-muted': (fechaComoFecha(subasta.fechaFin) < hoy) }">
+                                Fecha Fin : {{ subasta.fechaFin | date:'dd-MM-yyyy' }}
+                                </p>
                             </div>
                             <div class="mb-5 d-flex justify-content-around">
                                 <h3 class="card-text fw-bold" style="font-size: 1.3rem;">S/ {{ subasta.precioBase }}</h3>
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#createModal"
-                                    (click)="cargarModal(subasta)">
-                                    Ofertar
+                                   [ngClass]="{ 
+                                    'btn-primary': fechaComoFecha(subasta.fechaFin) >= hoy, 
+                                    'btn-muted': fechaComoFecha(subasta.fechaFin) < hoy ,
+                                    }"                                
+                                    [disabled]="fechaComoFecha(subasta.fechaFin) < hoy || subasta.isclosed === true"
+
+                                   (click)="cargarModal(subasta)"                                    
+                                    >        
+                                    {{ subasta.isclosed === false ? 'En Curso' : subasta.isclosed === true ? 'Subastado' : 'Ofertar' }}
+                                    <!-- Contenido del botón -->
                                 </button>
                             </div>
+                      
                         </div>
                     </div>
 
@@ -60,11 +84,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ofertar Libro</h5>
-                    <button id="createModal-close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!--<button id="createModal-close" type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
+                    </button>-->
                 </div>
                 <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h3>Tiempo restante: {{ tiempoRestante || '' }}</h3>
+                        </div>
+                    </div>                    
                     <form action="" class="form-horizontal">
                         <div class="row">
                             <div class="form-group col-md-2">
@@ -94,7 +123,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="">Nueva Oferta:</label>
-                                <input type="text" name="Precio_Oferta" id="Precio_Oferta" placeholder="Precio_Oferta"
+                                <input  #myInput type="text" name="Precio_Oferta" id="Precio_Oferta" placeholder="Precio_Oferta"
                                     class="form-control" [(ngModel)]="precio_ofertaInput">
                             </div>
                         </div>
@@ -102,11 +131,14 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="createModal-close" class="btn btn-primary" (click)="AgregarNuevaOferta()">
+                    <!--<button class="btn btn-primary" (click)="iniciarSubasta()">
+                        Iniciar
+                    </button>  -->                 
+                    <button id="cerrarmodal" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button id="ofertar" class="btn btn-primary" (click)="crearOferta()">
                         Ofertar
                     </button>
                 </div>
             </div>
         </div>
-    </div>
+    </div>x

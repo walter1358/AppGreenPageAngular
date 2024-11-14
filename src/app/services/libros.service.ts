@@ -29,10 +29,11 @@ export class LibrosService implements CanActivate {
     guardarLibros(librosup: Librosup) {
         return this.dataServiceLibros.guardarLibros(librosup);
     }
-        // librosService.ts
-        actualizarLibros(id: number, soloLibro: soloLibro) {
-            return this.dataServiceLibros.actualizarLibros(id, soloLibro);
-        }
+    
+    // librosService.ts
+    actualizarLibros(id: number, soloLibro: soloLibro) {
+        return this.dataServiceLibros.actualizarLibros(id, soloLibro);
+    }
     
 
     eliminarLibros(id: number) { 

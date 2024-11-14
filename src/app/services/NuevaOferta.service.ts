@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { DataServiceNuevaOferta } from "./dataNuevaOfertaservice";
-import { NuevaOferta } from "../model/nuevaOferta.model";
+import { DataServiceOferta } from "./dataNuevaOfertaservice";
+import { Oferta } from "../model/nuevaOferta.model";
 import { AuthService } from "./login.servivio";
 import { Router } from "@angular/router";
 
@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 @Injectable()
 export class NuevaOfertaService {
 
-    constructor(private authService: AuthService,private dataServiceNuevaOferta: DataServiceNuevaOferta, private router: Router) { }
+    constructor(private authService: AuthService,private dataServiceNuevaOferta: DataServiceOferta, private router: Router) { }
 
     canActivate(): boolean {
         if (this.authService.isAuthenticated()) {
@@ -23,18 +23,23 @@ export class NuevaOfertaService {
     }
 
     obtenerNuevaOferta() {
-        return this.dataServiceNuevaOferta.cargarNuevaOferta();
+        return this.dataServiceNuevaOferta.cargarOferta();
     }
     buscarNuevaOferta(id: number) {
-        return this.dataServiceNuevaOferta.buscarNuevaOferta(id);
+        return this.dataServiceNuevaOferta.buscarOferta(id);
     }
-    guardarNuevaOferta(nuevaOferta: NuevaOferta) {
-        return this.dataServiceNuevaOferta.guardarNuevaOferta(nuevaOferta);
+
+    obtenerOfertasPorUsuario(idusuario: number){
+        return this.dataServiceNuevaOferta.obtenerOfertasPorUsuario(idusuario);
+    }    
+
+    guardarNuevaOferta(nuevaOferta: Oferta) {
+        return this.dataServiceNuevaOferta.guardarOferta(nuevaOferta);
     }
-    actualizarNuevaOferta(nuevaOferta: NuevaOferta) {
+   /* actualizarNuevaOferta(nuevaOferta: NuevaOferta) {
         return this.dataServiceNuevaOferta.modificarNuevaOferta(nuevaOferta);
-    }
+    }*/
     eliminarNuevaOferta(id: number) {
-        return this.dataServiceNuevaOferta.eliminarNuevaOferta(id);
+        return this.dataServiceNuevaOferta.eliminarOferta(id);
     }
 }

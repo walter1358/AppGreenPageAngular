@@ -72,12 +72,12 @@
         #password="ngModel"
         required
         minlength="8"
-        pattern="^(?=.*[A-Z]).{8,}$"
-      />
+        pattern="^(?=.*[A-Z])(?=.*\d).{8,}$"
+        />
       <div *ngIf="password.invalid && password.touched" class="text-danger">
         <small *ngIf="password.errors?.['required']">La contraseña es obligatoria.</small>
         <small *ngIf="password.errors?.['minlength']">Debe tener al menos 8 caracteres.</small>
-        <small *ngIf="password.errors?.['pattern']">Debe contener al menos una letra mayúscula.</small>
+        <small *ngIf="password.errors?.['pattern']">Debe contener al menos una letra mayúscula y un número.</small>
       </div>
     </div>
 
@@ -93,7 +93,7 @@
         required
       >
         <option value="" disabled selected>Selecciona un perfil</option>
-        <option value="Ofertador">Ofertador</option>
+        <option value="Ofertador">Subastador/Ofertador</option>
         <option value="Administrador">Administrador</option>
       </select>
       <div *ngIf="profile.invalid && profile.touched" class="text-danger">

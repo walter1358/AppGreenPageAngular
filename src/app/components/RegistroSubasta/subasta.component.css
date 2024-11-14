@@ -1,0 +1,13 @@
+/* Estilo para el cronómetro */
+.modal-body h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ff0000;
+}
+
+/* Estilo para deshabilitar el botón */
+button[disabled] {
+    background-color: #ccc;
+    border-color: #aaa;
+    cursor: not-allowed;
+}

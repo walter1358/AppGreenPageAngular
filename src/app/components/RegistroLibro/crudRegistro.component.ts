@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Renderer2 } from "@angular/core";
+import { Component, Inject, OnInit, Renderer2,ViewChild,ElementRef } from "@angular/core";
 import { LibrosService } from "../../services/libros.service";
 import { Libros, Librosup, soloLibro } from "../../model/libro.model";
 import Swal from "sweetalert2";
@@ -19,6 +19,7 @@ import { AuthService } from "../../services/login.servivio";
 
 export class CrudLibrosComponent implements OnInit {
     isModalVisible: boolean = false; // Propiedad para controlar la visibilidad del modal
+    @ViewChild('updateModal') updateModal!: ElementRef;
     userData: any;/** */ 
     librosLst: Libros[] = [];
     librosupLst: Librosup[] = [];
@@ -61,10 +62,14 @@ export class CrudLibrosComponent implements OnInit {
         this.isModalVisible = true;
     }
 
-    // Método para cerrar el modal
-    cerrarModal() {
-        this.isModalVisible = false;
-    }    
+  // Método para cerrar el modal
+  cerrarModal(): void {
+    const modalElement = this.updateModal.nativeElement;
+    modalElement.style.display = 'none';
+    modalElement.classList.remove('show');
+    modalElement.removeAttribute('aria-modal');
+    modalElement.removeAttribute('role');
+  }  
 
     constructor(private librosService: LibrosService,
         public authService: AuthService,        
@@ -75,26 +80,86 @@ export class CrudLibrosComponent implements OnInit {
     ) { }
 
     ngAfterViewInit() {
-
-  
-        this.cargarLibros();
-        
-
+        this.cargarLibros();        
       }  
 
-    cargarLibros(): void {
+      cargarLibros(): void {
         this.librosService.obtenerLibros().subscribe(
           (libros) => {
-            console.log(libros)
+            console.log(libros);
             this.librosLst = libros;
-            console.log(this.librosLst)
+            console.log(this.librosLst);
+      
+            // Limpia la tabla si ya tiene datos
+            $('#dataTable').DataTable().clear().destroy();
+      
+            // Llena el DataTable con los datos de libros
+            $('#dataTable').DataTable({
+              data: this.librosLst, // Datos a mostrar en la tabla
+              columns: [
+                {
+                  title: '#', // Título de la columna de contador
+                  render: (data, type, row, meta) => {
+                    return meta.row + 1; // Devuelve el número de fila (comienza desde 1)
+                  }
+                },
+                { data: 'idLibro', title: 'idLibro' },
+                { data: 'destitulo', title: 'Título' },
+                { data: 'estado', title: 'estado' },
+                { data: 'isbn', title: 'isbn' },
+                { data: 'sinopsys', title: 'sinopsys' },
+                { data: 'editorial', title: 'editorial' },
+                { data: 'genero', title: 'genero' },
+                {
+                  title: 'Acciones',
+                  render: (data, type, row) => {
+                    // Botón con el ícono de lápiz (editar)
+                    return `<button class="btn btn-alert btn-sm edit-button" data-id="${row.idLibro}">
+                              <i class="fas fa-edit"></i>
+                            </button>`;
+                  },
+                  orderable: false, // Opcional: Desactiva la ordenación en esta columna
+                }
+              ],
+            });
+      
+            // Evento para el botón de editar
+            $('#dataTable tbody').on('click', 'button.edit-button', (event) => {
+              const idLibro = $(event.currentTarget).data('id');
+              this.editarLibro(idLibro);
+            });
+      
           },
           (error) => {
             console.error('Error al cargar los libros:', error);
             Swal.fire('Error', 'No se pudieron cargar los libros.', 'error');
           }
-        ); }
+        );
+      }
+      editarLibro(idLibro: number): void {
+        const libro = this.librosLst.find((l) => l.idLibro === idLibro);
+        if (libro) {
+          this.idlibroAct = libro.idLibro;
+          this.tituloAct = libro.destitulo;
+          this.editorialInput = libro.editorial;
+          this.estadoAct = libro.estado;
+          this.isbnAct = libro.isbn;
+          this.sinopsisAct = libro.sinopsys;
+          this.ideditorialAct = libro.idEditorial; 
+          this.idgeneroAct = libro.idGenero;          
+    
+          // Muestra el modal usando ElementRef
+          const modalElement = this.updateModal.nativeElement;
+          modalElement.style.display = 'block';
+          modalElement.classList.add('show');
+          modalElement.setAttribute('aria-modal', 'true');
+          modalElement.setAttribute('role', 'dialog');
+        }
+      }
+      
 
+
+      
     getEditorialesConocidas(): Editorial[] {
         return [
           new Editorial(1, 'Editorial Planeta'),
@@ -219,6 +284,10 @@ export class CrudLibrosComponent implements OnInit {
                 this.estadoInput, 
                 this.isbnInput,
                 this.sinopsisInput, 
+                this.idUsuarioInput,
+                this.fecha_inicioInput,
+                this.fecha_finalInput,
+                this.precio_baseInput                
                 /*{
                     ideditorial: 0,
                     deseditorial: '' // o algún valor predeterminado si es necesario
@@ -227,10 +296,7 @@ export class CrudLibrosComponent implements OnInit {
                     idgenero: 0,
                     desgenero: '' // o algún valor predeterminado si es necesario
                 }  ,*/
-                this.idUsuarioInput,
-                this.fecha_inicioInput,
-                this.fecha_finalInput,
-                this.precio_baseInput
+
                         
             );
             console.log("Guardar", lib)
@@ -262,7 +328,7 @@ export class CrudLibrosComponent implements OnInit {
                 }
             )
 
-            /*this.idlibroInput = 0;
+            this.idlibroInput = 0;
             this.tituloInput = '';
             this.estadoInput = '';
             this.isbnInput = '';
@@ -271,64 +337,11 @@ export class CrudLibrosComponent implements OnInit {
             this.idgeneroInput = 0;
             this.fecha_inicioInput = '';
             this.fecha_finalInput = '';
-            this.precio_baseInput = 0;*/
+            this.precio_baseInput = 0;
             //this.listarLibros();
         }
 
     }
-
-    /*modificarCliente(){
-        let lib = new Libros(this.idlibroAct, this.ideditorialAct, this.idgeneroAct, this.tituloAct, this.estadoAct, this.isbnAct,
-            this.sinopsisAct, this.fecha_inicioAct, this.fecha_finalAct, this.precio_baseIAct, this.editorialInput, this.generoInput);
-        console.log('cliente a modificar:', lib);
-        //this.clienteLst.push(cli);
-        this.librosService.actualizarLibros(lib)
-            .subscribe(
-                (response) => {
-                    console.log("Resultado del actualizar cliente: ");
-                    console.log(response);
-
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "Se actualió correctamente el Lbro",
-                        showConfirmButton: true,
-                        showCloseButton: true,
-                        showCancelButton: true,
-                        timer: 5000 //en milisegundos
-                    });
-
-                        this.idlibroInput = 0;
-                        this.tituloInput = '';
-                        this.estadoInput = '';
-                        this.isbnInput = '';
-                        this.sinopsisInput = '';
-                        this.ideditorialInput = 0;
-                        this.idgeneroInput = 0;
-                        this.fecha_inicioInput = '';
-                        this.fecha_finalInput = '';
-                        this.precio_baseInput = 0;
-                        this.cargarLibros();
-
-                    this._document.getElementById('updateModal-close')?.click();
-                },
-                (error) => {
-                    Swal.fire({
-                        position: "center",
-                        icon: "warning",
-                        title: "Algo Pasó!",
-                        text: "No se logró crear el Libros, vuelva a intentar",
-                        showConfirmButton: true,
-                        showCloseButton: true,
-                        showCancelButton: true,
-                        timer: 5000 //en milisegundos
-                    });
-
-                    //this._document.getElementById('updateModal-close')?.click();
-                }
-            );
-    }*/
-
 
     modificarCliente(){
         if (this.ideditorialAct === 0 || this.idgeneroAct === 0 || this.tituloAct === '') {

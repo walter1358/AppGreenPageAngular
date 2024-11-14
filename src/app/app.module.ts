@@ -12,7 +12,7 @@ import { DataServiceSubasta } from './services/dataSubasta.service';
 import { SubastaService } from './services/subasta.service';
 import { DataServiceLibros2 } from './services/dataLibros2.service';
 
-import { DataServiceNuevaOferta } from './services/dataNuevaOfertaservice';
+import { DataServiceOferta } from './services/dataNuevaOfertaservice';
 import { NuevaOfertaService } from './services/NuevaOferta.service';
 import { DataServiceEditorial } from './services/dataEditorial.service';
 import { DataServiceGenero } from './services/dataGeneroservice';
@@ -31,6 +31,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 //import {ComponentsComponent}
 import { ComponentsComponent } from './GestionUsuarios/components/components.component';
 
+
 //import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
@@ -41,7 +42,7 @@ import { ComponentsComponent } from './GestionUsuarios/components/components.com
     PagLoginComponent,
     OfertaComponent,
     ComponentsComponent
-    // SubastaComponent
+        // SubastaComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +57,7 @@ import { ComponentsComponent } from './GestionUsuarios/components/components.com
     DataServiceLibros,
     DataServiceLibros2,
     DataServiceSubasta,
-    DataServiceNuevaOferta,
+    DataServiceOferta,
     DataServiceEditorial,
     DataServiceGenero,
     SubastaService,
