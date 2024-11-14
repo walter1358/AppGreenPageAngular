@@ -1,8 +1,6 @@
 <div class="container d-flex flex-column align-items-center">
-  <!-- Título del formulario -->
   <h2 class="form-title">Crear Usuario</h2>
 
-  <!-- Formulario de usuario -->
   <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" novalidate class="col-md-6 col-lg-4">
     
     <!-- Campo de Nombre -->
@@ -13,7 +11,7 @@
         id="firstName"
         name="firstName"
         class="form-control"
-        [(ngModel)]="user.firstName"
+        [(ngModel)]="nuevoUsuario.firstName"
         #firstName="ngModel"
         required
         minlength="2"
@@ -32,7 +30,7 @@
         id="lastName"
         name="lastName"
         class="form-control"
-        [(ngModel)]="user.lastName"
+        [(ngModel)]="nuevoUsuario.lastName"
         #lastName="ngModel"
         required
         minlength="2"
@@ -51,7 +49,7 @@
         id="email"
         name="email"
         class="form-control"
-        [(ngModel)]="user.email"
+        [(ngModel)]="nuevoUsuario.email"
         #email="ngModel"
         required
         email
@@ -70,7 +68,7 @@
         id="password"
         name="password"
         class="form-control"
-        [(ngModel)]="user.password"
+        [(ngModel)]="nuevoUsuario.password"
         #password="ngModel"
         required
         minlength="8"
@@ -90,7 +88,7 @@
         id="profile"
         name="profile"
         class="form-control"
-        [(ngModel)]="user.profile"
+        [(ngModel)]="nuevoUsuario.profile"
         #profile="ngModel"
         required
       >
@@ -104,7 +102,11 @@
     </div>
 
     <!-- Botón de Envío en Verde -->
-    <button type="submit" class="btn btn-success btn-block" [disabled]="userForm.invalid">
+    <button 
+      type="submit" 
+      class="btn btn-success btn-block" (click)="crearUsuario()" 
+      [disabled]="userForm.invalid"
+    >
       Crear Usuario
     </button>
   </form>
