@@ -2,7 +2,7 @@
 <hr>
 
 
-<div class="accordion " id="accordionExample">
+<!--<div class="accordion " id="accordionExample">
     <div class="card shadow mb-4">
         <div class="card-header py-3 mb-4">
             <h6 class="m-0 font-weight-bold text-primary">Ofertas:</h6>
@@ -13,7 +13,7 @@
             </select>
         </div>
     </div>
-</div>
+</div> 
 
 <div class="row">
     <div class="form-group col-md-2">
@@ -21,10 +21,10 @@
             Buscar
         </button>
     </div>
-</div>
+</div>-->
 
 
-<div class="card shadow mb-4">
+<!--<div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Tabla de Ofertas</h6>
     </div>
@@ -34,22 +34,19 @@
                 <thead class="bg-secondary">
                     <tr class="text-white">
                         <th>#</th>
+                        <th>idOferta</th>
                         <th>Titulo</th>
-                        <th>Estado</th>
-                        <th>ISBN</th>
-                        <th>Precio Base</th>
                         <th>Precio Oferta</th>
-                        <th>Acciones</th>
+                        <th>Fecha oferta</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let oferta of OfertaLst; let i = index">
-                        <td>{{oferta.idnuevaoferta }}</td>
-                        <td>{{ obtenerTituloEstadoISBN(oferta.idlibro).titulo }}</td>
-                        <td>{{ obtenerTituloEstadoISBN(oferta.idlibro).estado }}</td>
-                        <td>{{ obtenerTituloEstadoISBN(oferta.idlibro).isbn }}</td>
-                        <td>{{ obtenerTituloEstadoISBN(oferta.idlibro).precio_base }}</td>
-                        <td>{{oferta.precio_oferta }}</td>
+                    <tr *ngFor="let oferta of ofertasUsuario; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{oferta.idOferta }}</td>
+                        <td>{{oferta.destitulo }}</td>
+                        <td>{{oferta.precioOferta }}</td>
+                        <td>{{oferta.fecOferta }}</td>
                         <td>
                             <a class="btn btn-warning">
                                 <span class="fa fa-edit"></span>
@@ -64,15 +61,38 @@
                 <tfoot class="thead-dark">
                     <tr class="text-white">
                         <th>#</th>
+                        <th>idOferta</th>
                         <th>Titulo</th>
-                        <th>Estado</th>
-                        <th>ISBN</th>
-                        <th>Precio Base</th>
                         <th>Precio Oferta</th>
-                        <th>Acciones</th>
+                        <th>Fecha oferta</th>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
+</div>-->
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tabla de Ofertas</h6>
+    </div>
+<div class="card-body">
+    <div class="table-responsive">
+<table datatable id="dataTableoferta" class="table table-bordered">
+    <thead class="bg-secondary">
+        <tr class="text-white">
+        <th>#</th>  <!-- Columna de contador -->
+        <th>ID Oferta</th>
+        <th>Título</th>
+        <th>Precio</th>
+        <th>Fecha Oferta</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Aquí se llenarán las filas dinámicamente con los datos -->
+    </tbody>
+  </table>
+  </div>
 </div>
+</div>  
+  

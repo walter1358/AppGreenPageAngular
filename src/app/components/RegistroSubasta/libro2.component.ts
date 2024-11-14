@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import Swal from "sweetalert2";
 import { DOCUMENT } from '@angular/common';
 import { NuevaOfertaService } from '../../services/NuevaOferta.service';
-import { NuevaOferta } from '../../model/nuevaOferta.model';
+import { Oferta } from '../../model/nuevaOferta.model';
 import { AuthService } from '../../services/login.servivio';
 import { Router } from '@angular/router';
 import { Libros } from '../../model/libro.model';
@@ -14,6 +14,7 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { subscribe } from 'node:diagnostics_channel';
 import { response } from 'express';
 import { error } from 'node:console';
+import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 
 
@@ -25,6 +26,7 @@ import { error } from 'node:console';
   styleUrls: ['./subasta.component.css']
 })
 export class Libro2Component implements OnInit {
+  @ViewChild('myInput') myInput!: ElementRef;
   subastaLst: Subasta[] = [];
   hoy: Date = this.obtenerFechaSinHora(new Date());
   intervalo: any;  
@@ -32,6 +34,10 @@ export class Libro2Component implements OnInit {
   auctionId = 1;
   tiempoRestante = 0;
   endTime: string = '';
+  todayDate: string;
+  ultimaoferta: number = 0;
+  ganadorinfo: any
+
 
 
 
@@ -51,6 +57,9 @@ export class Libro2Component implements OnInit {
   public fecha_finalInput: string = '';
   public precio_baseInput: number = 0;
   public timeRemaining: number = 1;
+  idUsuarioInput:number = 0;
+  userData: any;/** */ 
+
 
 
 
@@ -64,10 +73,11 @@ export class Libro2Component implements OnInit {
       private router: Router,
       private nuevaOfertaService: NuevaOfertaService,
       private _renderer2: Renderer2,
-      @Inject(DOCUMENT) private _document: Document,    
-      
+      @Inject(DOCUMENT) private _document: Document,   
+      private renderer: Renderer2             
     ) 
     {    
+      this.todayDate = new Date().toISOString();  
     }
 
   //Ejemplo de añadir js directamente
@@ -81,6 +91,15 @@ export class Libro2Component implements OnInit {
     body.appendChild(script);
     //this.iniciarCronometro();
     //this.cargarSubasta();    
+
+      // Suscribirse a los cambios en userData$
+      this.authService.userData$.subscribe(data => {
+        this.userData = data; // Actualiza userData cuando cambia
+    });/** */
+    console.log("User Data es: ", this.userData)
+    this.idUsuarioInput = this.userData.id;
+    console.log("El id capturado es: ",  this.idUsuarioInput)
+
 
  }
 
@@ -129,6 +148,7 @@ export class Libro2Component implements OnInit {
           console.log(response);
           this.endTime = response.endtime;  // Guardamos el tiempo de fin de la subasta
           this.consultarTiempoRestante();
+          this.cargarSubasta();
         },
         (error) => {
           console.error('Error al iniciar la subasta', error);
@@ -142,6 +162,7 @@ export class Libro2Component implements OnInit {
           console.log(response);
           this.tiempoRestante = response.tiempoRestante;
           this.iniciarCronometro();
+          this.cargarSubasta();
         },
         (error) => {
           console.error('Error al obtener el tiempo restante', error);
@@ -154,6 +175,7 @@ export class Libro2Component implements OnInit {
       this.subastaService.cerrarSubasta(this.idSubasta).subscribe(
         (response) => {
           console.log(response);
+          this.cargarSubasta();
         },
         (error) =>{
           console.error('error al intentar cerrar la subasta', error);
@@ -175,33 +197,106 @@ export class Libro2Component implements OnInit {
       } else {
         clearInterval(this.intervalo); // Detener el cronómetro cuando llegue a 0
         this.mostrarAlertaSubastaTerminada(); // Llamar a la función para mostrar la alerta
+       // this.cargarSubasta();
       }
     }, 1000);
   }  
+// Función para obtener el ganador y mostrar la alerta
+obtenerGanador(idSubasta: number): void {
+  this.subastaService.obtenerGanador(idSubasta).subscribe(
+    response => {
+      this.ganadorinfo = response.usuarioGanador;
+      console.log("Ganador de la subasta es el siguiente: ", this.ganadorinfo);
 
-// Función para mostrar la alerta
-mostrarAlertaSubastaTerminada(): void {
-  Swal.fire({
-    icon: 'info',
-    title: 'Subasta terminada',
-    text: 'La subasta ha finalizado.',
-    confirmButtonText: 'Aceptar'
-  }).then((result) => {
-    if (result.isConfirmed){
-    
-      const closeModalButton = document.getElementById('cerrarmodal');
-      if (closeModalButton) {
-          closeModalButton.click();
-      }
-      
-      //location.reload();
-      this.cerrarSubaste();
-      this.cargarSubasta();
+      // Mostrar la alerta después de recibir la respuesta
+      Swal.fire({
+        icon: 'info',
+        title: 'Subasta terminada',
+        text: `La subasta ha finalizado. El ganador es ${this.ganadorinfo}.`,
+        confirmButtonText: 'Aceptar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const closeModalButton = document.getElementById('cerrarmodal');
+          if (closeModalButton) {
+            closeModalButton.click();
+          }
 
+          // Ejecutar otras acciones después de cerrar la alerta
+          this.cerrarSubaste();
+          this.cargarSubasta();
+        }
+      });
+    },
+    error => {
+      console.error("Error al obtener al ganador de la subasta", error);
     }
-  });
+  );
+}
 
-}  
+
+// Función para manejar la alerta al finalizar la subasta
+mostrarAlertaSubastaTerminada(): void {
+  this.obtenerGanador(this.idSubasta);
+} 
+
+crearOferta() {
+
+  if (this.precio_ofertaInput == 0 ) {
+      Swal.fire({
+          icon: 'warning',
+          title: 'error',
+          text: 'Debe ingresar un precio de oferta',
+          showCloseButton: true,
+      })
+  }else if(this.precio_ofertaInput <= this.precio_baseInput){
+    Swal.fire({
+      icon: 'warning',
+      title: 'error',
+      text: 'El precio de oferta debe ser mayor al precio base',
+      showCloseButton: true,
+  })
+  }
+  else {
+      let lib = new Oferta(
+          0,
+          this.idSubasta,
+          this.precio_ofertaInput,
+          this.todayDate,
+          this.idUsuarioInput                     
+      );
+      console.log("Guardar", lib)
+
+      this.subastaService.crearOferta(lib).subscribe(
+          (response) => {
+              console.log('Oferta guardada: ', response);
+              Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Se guardó correctamente la oferta",
+                  showConfirmButton: true,
+                  showCloseButton: true,
+                  showCancelButton: false,                        
+              })
+              this.cargarSubasta();
+              this.ultimaoferta = response.precioOferta;
+              console.log('ultimo precio oferta: ', this.ultimaoferta)
+
+          },
+          (error) => {
+              //console.log(response)
+              console.error('Error al guardar la oferta:', error.error);
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: error.error || 'No se pudo guardar la oferta',
+                  showCloseButton: true,
+              });
+          }
+      )
+      //this.precio_ofertaInput
+  }
+
+}
 
   // Llamar a esta función cuando se haga clic en "Ofertar"
   ofertar(subasta: any): void {
@@ -237,9 +332,7 @@ mostrarAlertaSubastaTerminada(): void {
           Swal.fire('Error', 'No se pudieron cargar los libros.', 'error');
         }
       ); 
-
-  
-  
+   
       /*this.subastaService.obtenerTiempoRestante(this.idSubasta).subscribe(
         (data: any) => {
           this.tiempoRestante = data.tiempoRestante;
@@ -256,12 +349,10 @@ mostrarAlertaSubastaTerminada(): void {
     
     }
 
-  AgregarNuevaOferta() {
-    let nuevaOf = new NuevaOferta(0, this.idlibroInput, this.precio_ofertaInput, this.tituloInput, this.estadoInput);
-    
+  AgregarNuevaOferta() {   
     Swal.fire({
       position: "center",
-      icon: "success",
+      icon: "success", 
       title: "se registro correctamente nueva oferta",
       showConfirmButton: true,
       showCloseButton: true,
@@ -270,41 +361,6 @@ mostrarAlertaSubastaTerminada(): void {
     });
     this.precio_ofertaInput = 0;
     this._document.getElementById('createModal-close')?.click();
-
-    //this.clienteLst.push(cli);
-    // this.nuevaOfertaService.guardarNuevaOferta(nuevaOf)
-    //   .subscribe(
-    //     (response) => {
-    //       console.log("Resultado de nueva oferta: ");
-    //       console.log(response);
-
-    //       Swal.fire({
-    //         position: "center",
-    //         icon: "success",
-    //         title: "se registro correctamente nueva oferta",
-    //         showConfirmButton: true,
-    //         showCloseButton: true,
-    //         showCancelButton: true,
-    //         timer: 5000 //en milisegundos
-    //       });
-    //       this.precio_ofertaInput = 0;
-    //       this._document.getElementById('createModal-close')?.click();
-    //     },
-    //     (error) => {
-    //       Swal.fire({
-    //         position: "center",
-    //         icon: "warning",
-    //         title: "Algo Pasó!",
-    //         text: "No se logró crear la oferta, vuelva a intentar",
-    //         showConfirmButton: true,
-    //         showCloseButton: true,
-    //         showCancelButton: true,
-    //         timer: 5000 //en milisegundos
-    //       });
-
-    //       //this._document.getElementById('updateModal-close')?.click();
-    //     }
-      // );
   }
 
 }

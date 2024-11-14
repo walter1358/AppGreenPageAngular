@@ -1,17 +1,17 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { NuevaOferta } from "../model/nuevaOferta.model";
 import { Observable } from "rxjs";
+import { Oferta } from "../model/nuevaOferta.model";
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataServiceNuevaOferta {
-  private apiUrl = 'http://localhost:8080/api/nuevaOferta';
+export class DataServiceOferta {
+  private apiUrl = 'http://localhost:8080/api/Oferta';
 
-  constructor(private httpNuevaOferta: HttpClient) { }
+  constructor(private httpOferta: HttpClient) { }
 
   private getHttpOptions() {
     return {
@@ -23,24 +23,29 @@ export class DataServiceNuevaOferta {
     };
   }
 
-  cargarNuevaOferta(): Observable<NuevaOferta[]> {
-    return this.httpNuevaOferta.get<NuevaOferta[]>(this.apiUrl, this.getHttpOptions());
+// Agrega este método para obtener las ofertas de un usuario específico
+  obtenerOfertasPorUsuario(usuarioId: number): Observable<any> {
+    return this.httpOferta.get<any>(`http://localhost:5048/api/Oferta/GetOfertasPorUsuario/${usuarioId}`);
+  }  
+
+  cargarOferta(): Observable<Oferta[]> {
+    return this.httpOferta.get<Oferta[]>(this.apiUrl, this.getHttpOptions());
   }
 
-  buscarNuevaOferta(id: number): Observable<NuevaOferta> {
-    return this.httpNuevaOferta.get<NuevaOferta>(`${this.apiUrl}/${id}`, this.getHttpOptions());
+  buscarOferta(id: number): Observable<Oferta> {
+    return this.httpOferta.get<Oferta>(`${this.apiUrl}/${id}`, this.getHttpOptions());
   }
 
-  guardarNuevaOferta(nuevaOferta: NuevaOferta): Observable<NuevaOferta> {
-    return this.httpNuevaOferta.post<NuevaOferta>(this.apiUrl, nuevaOferta, this.getHttpOptions());
+  guardarOferta(Oferta: Oferta): Observable<Oferta> {
+    return this.httpOferta.post<Oferta>(this.apiUrl, Oferta, this.getHttpOptions());
   }
 
-  modificarNuevaOferta(nuevaOferta: NuevaOferta): Observable<NuevaOferta> {
-    return this.httpNuevaOferta.put<NuevaOferta>(`${this.apiUrl}/${nuevaOferta.idnuevaoferta}`, nuevaOferta, this.getHttpOptions());
-  }
+  /*modificarOferta(Oferta: Oferta): Observable<Oferta> {
+    return this.httpOferta.put<Oferta>(`${this.apiUrl}/${Oferta.idOferta}`, Oferta, this.getHttpOptions());
+  }*/
 
-  eliminarNuevaOferta(id: number): Observable<void> {
-    return this.httpNuevaOferta.delete<void>(`${this.apiUrl}/${id}`, this.getHttpOptions());
+  eliminarOferta(id: number): Observable<void> {
+    return this.httpOferta.delete<void>(`${this.apiUrl}/${id}`, this.getHttpOptions());
   }
 }
 

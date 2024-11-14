@@ -6,7 +6,8 @@ import Swal from "sweetalert2";
 import { debug } from "node:console";
 import { response } from "express";
 import { responseInterceptor } from "http-proxy-middleware";
-import { resolve } from "node:path";
+import { resolve } from "node:path"; 
+
 
 
 @Component({
@@ -262,46 +263,9 @@ export class PagLoginComponent implements OnInit{
       this.isRecuperarModalOpen = false;
     }
 
-
-  
-    register() {
+      register() {
       // Lógica de registro aquí
       console.log('Registro exitoso');
       this.closeRegisterModal(); // Cierra el modal después de registrar
     }
-
-    
-    // onLogin(){
-    //   const usertxt = this.loginInput;
-    //   const passtxt = this.passwordInput;
-    
-    //   const loginModel: LoginModel = { user: usertxt, pass: passtxt };
-    //   console.log(loginModel);
-      
-    //   //this.router.navigate(['/RegistroLibros']);
-
-
-    //   // this.authService.login(loginModel).subscribe(response => 
-    //   //   {
-    //   //     console.log('Login exitoso', response);
-    //   //     this.isLoggedIn = true;
-          
-    //   //     this.router.navigate(['/RegistroLibros']);
-         
-    //   //     console.log('Cambio de pagina', response);
-
-    //   //   }, error => {
-    //   //     console.error('Error de login', error);
-    //   //     Swal.fire({
-    //   //         position: "center",
-    //   //         icon: "warning",
-    //   //         title: "Algo pasó!",
-    //   //         text: "Usuario incorrecto",
-    //   //         showConfirmButton: true,
-    //   //         showCloseButton: true,
-    //   //         showCancelButton: false,
-    //   //         timer: 5000 // en milisegundos
-    //   //       });
-    //   // });
-    // }
 }

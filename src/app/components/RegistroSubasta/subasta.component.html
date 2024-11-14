@@ -123,7 +123,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="">Nueva Oferta:</label>
-                                <input type="text" name="Precio_Oferta" id="Precio_Oferta" placeholder="Precio_Oferta"
+                                <input  #myInput type="text" name="Precio_Oferta" id="Precio_Oferta" placeholder="Precio_Oferta"
                                     class="form-control" [(ngModel)]="precio_ofertaInput">
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                         Iniciar
                     </button>  -->                 
                     <button id="cerrarmodal" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button id="ofertar" class="btn btn-primary">
+                    <button id="ofertar" class="btn btn-primary" (click)="crearOferta()">
                         Ofertar
                     </button>
                 </div>
