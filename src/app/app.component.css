@@ -1,0 +1,10 @@
+/* Estilos de la barra lateral en su tamaño reducido */
+.sidebar.collapsed {
+    width: 80px; /* Puedes ajustar el tamaño como desees */
+  }
+  
+  /* Si también quieres reducir el tamaño del contenido al hacer el toggle */
+  .sidebar.collapsed + .content-wrapper {
+    margin-left: 80px; /* Ajusta el contenido */
+  }
+  

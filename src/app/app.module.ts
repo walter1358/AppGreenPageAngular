@@ -30,6 +30,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 //import {ComponentsComponent}
 import { ComponentsComponent } from './GestionUsuarios/components/components.component';
+import { VerusuariosComponent } from './components/verusuarios/verusuarios.component';
 
 
 //import { DataTablesModule } from 'angular-datatables';
@@ -41,7 +42,8 @@ import { ComponentsComponent } from './GestionUsuarios/components/components.com
     Libro2Component,
     PagLoginComponent,
     OfertaComponent,
-    ComponentsComponent
+    ComponentsComponent,
+    VerusuariosComponent
         // SubastaComponent
   ],
   imports: [
