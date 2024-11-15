@@ -9,6 +9,7 @@ import { Observable } from "rxjs";
 })
 export class DataServiceUsuarios { 
   private baseUrl = 'http://localhost:5048/api/Usuario/Usuarios'; 
+  private updtUrl = 'http://localhost:5048/api/Usuario'
   private authHeader = 'Basic amFtZXM6amFtZXMxMjM=';
 
   constructor(private http: HttpClient) {}
@@ -53,7 +54,7 @@ export class DataServiceUsuarios {
 
   // Actualizar un usuario
   actualizarUsuario(id: number, usuario: UsuarioUpdate): Observable<Usuario> {
-    return this.http.put<Usuario>(`${this.baseUrl}/${id}`, usuario, this.getHttpOptions());
+    return this.http.put<Usuario>(`${this.updtUrl}/${id}`, usuario, this.getHttpOptions());
   }
 
   // Eliminar un usuario

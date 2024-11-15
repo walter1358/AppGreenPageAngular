@@ -284,35 +284,14 @@ export class CrudLibrosComponent implements OnInit {
         
     }
 
-   /* listarLibros() {
-        this.librosLst = this.getLibrosEnEspanol();
-        
-        // this.librosService.obtenerLibros()
-        //     .subscribe((data: any) => {
-        //         //console.log(data);
-        //         this.librosLst = data;
-        //     })
-    }*/
-
-
     listarGenero() {
         this.generoLst = this.getGenerosConocidos();
 
-        // this.generoService.obtenerGenero()
-        //     .subscribe((data: any) => {
-        //         //console.log(data);
-        //         this.generoLst = data;
-        //     })
     }
 
     listarEditorial() {
         this.editorialLst= this.getEditorialesConocidas();
-        
-        // this.editorialService.obtenerEditorial()
-        //     .subscribe((data: any) => {
-        //         //console.log(data);
-        //         this.editorialLst = data;
-        //     })
+
     }
 
     poblarModal(libros: Libros){

@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { DataServiceUsuarios } from "./userDataService.service";
+import { UsuarioUpdate } from "../model/usuario.model";
 
 
 @Injectable({
@@ -28,6 +29,11 @@ export class UsuarioService {
   cambiarContrasena(userData: any):Observable<any>{
     return this.dataserviceUsuarios.cambiarContrasena(userData);
   }
+
+    // librosService.ts
+    actualizarUsuario(id: number, usuario: UsuarioUpdate) {
+      return this.dataserviceUsuarios.actualizarUsuario(id, usuario);
+  }  
   
 }
   
