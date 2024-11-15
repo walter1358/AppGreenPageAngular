@@ -5,99 +5,118 @@
     
     <!-- Campo de Nombre -->
     <div class="form-group">
-      <label for="firstName">Nombre:</label>
+      <label for="nomUsuario">Nombre:</label>
       <input
         type="text"
-        id="firstName"
-        name="firstName"
+        id="nomUsuario"
+        name="nomUsuario"
         class="form-control"
-        [(ngModel)]="nuevoUsuario.firstName"
-        #firstName="ngModel"
+        [(ngModel)]="nuevoUsuario.nomUsuario"
+        #nomUsuario="ngModel"
         required
         minlength="2"
       />
-      <div *ngIf="firstName.invalid && firstName.touched" class="text-danger">
-        <small *ngIf="firstName.errors?.['required']">El nombre es obligatorio.</small>
-        <small *ngIf="firstName.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      <div *ngIf="nomUsuario.invalid && nomUsuario.touched" class="text-danger">
+        <small *ngIf="nomUsuario.errors?.['required']">El nombre es obligatorio.</small>
+        <small *ngIf="nomUsuario.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
       </div>
     </div>
 
     <!-- Campo de Apellido -->
     <div class="form-group">
-      <label for="lastName">Apellido:</label>
+      <label for="apeUsuario">Apellido:</label>
       <input
         type="text"
-        id="lastName"
-        name="lastName"
+        id="apeUsuario"
+        name="apeUsuario"
         class="form-control"
-        [(ngModel)]="nuevoUsuario.lastName"
-        #lastName="ngModel"
+        [(ngModel)]="nuevoUsuario.apeUsuario"
+        #apeUsuario="ngModel"
         required
         minlength="2"
       />
-      <div *ngIf="lastName.invalid && lastName.touched" class="text-danger">
-        <small *ngIf="lastName.errors?.['required']">El apellido es obligatorio.</small>
-        <small *ngIf="lastName.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+      <div *ngIf="apeUsuario.invalid && apeUsuario.touched" class="text-danger">
+        <small *ngIf="apeUsuario.errors?.['required']">El apellido es obligatorio.</small>
+        <small *ngIf="apeUsuario.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
       </div>
     </div>
 
+    <!-- Campo de DNI -->
+    <div class="form-group">
+      <label for="dni">DNI:</label>
+      <input
+        type="text"
+        id="dni"
+        name="dni"
+        class="form-control"
+        [(ngModel)]="nuevoUsuario.dni"
+        #dni="ngModel"
+        required
+        minlength="8"
+      />
+      <div *ngIf="dni.invalid && dni.touched" class="text-danger">
+        <small *ngIf="dni.errors?.['required']">El dni es obligatorio.</small>
+        <small *ngIf="dni.errors?.['minlength']">Debe tener 8 caracteres.</small>
+      </div>
+    </div>    
+
     <!-- Campo de Correo Electrónico -->
     <div class="form-group">
-      <label for="email">Correo electrónico:</label>
+      <label for="login">Correo electrónico:</label>
       <input
         type="email"
-        id="email"
-        name="email"
+        id="login"
+        name="login"
         class="form-control"
-        [(ngModel)]="nuevoUsuario.email"
-        #email="ngModel"
+        [(ngModel)]="nuevoUsuario.login"
+        #login="ngModel"
         required
-        email
+        login
       />
-      <div *ngIf="email.invalid && email.touched" class="text-danger">
-        <small *ngIf="email.errors?.['required']">El correo es obligatorio.</small>
-        <small *ngIf="email.errors?.['email']">Ingrese un correo válido.</small>
+      <div *ngIf="login.invalid && login.touched" class="text-danger">
+        <small *ngIf="login.errors?.['required']">El correo es obligatorio.</small>
+        <small *ngIf="login.errors?.['login']">Ingrese un correo válido.</small>
       </div>
     </div>
 
     <!-- Campo de Contraseña -->
     <div class="form-group">
-      <label for="password">Contraseña:</label>
+      <label for="pass">Contraseña:</label>
       <input
-        type="password"
-        id="password"
-        name="password"
+        type="pass"
+        id="pass"
+        name="pass"
         class="form-control"
-        [(ngModel)]="nuevoUsuario.password"
-        #password="ngModel"
+        [(ngModel)]="nuevoUsuario.pass"
+        #pass="ngModel"
         required
         minlength="8"
         pattern="^(?=.*[A-Z])(?=.*\d).{8,}$"
         />
-      <div *ngIf="password.invalid && password.touched" class="text-danger">
-        <small *ngIf="password.errors?.['required']">La contraseña es obligatoria.</small>
-        <small *ngIf="password.errors?.['minlength']">Debe tener al menos 8 caracteres.</small>
-        <small *ngIf="password.errors?.['pattern']">Debe contener al menos una letra mayúscula y un número.</small>
+      <div *ngIf="pass.invalid && pass.touched" class="text-danger">
+        <small *ngIf="pass.errors?.['required']">La contraseña es obligatoria.</small>
+        <small *ngIf="pass.errors?.['minlength']">Debe tener al menos 8 caracteres.</small>
+        <small *ngIf="pass.errors?.['pattern']">Debe contener al menos una letra mayúscula y un número.</small>
       </div>
     </div>
 
     <!-- Selección de Perfil -->
     <div class="form-group">
-      <label for="profile">Perfil:</label>
+      <label for="idPerfil">Perfil:</label>
       <select
-        id="profile"
-        name="profile"
+        id="idPerfil"
+        name="idPerfil"
         class="form-control"
-        [(ngModel)]="nuevoUsuario.profile"
-        #profile="ngModel"
+        [(ngModel)]="nuevoUsuario.idPerfil"
+        #idPerfil="ngModel"
         required
       >
         <option value="" disabled selected>Selecciona un perfil</option>
-        <option value="Ofertador">Subastador/Ofertador</option>
-        <option value="Administrador">Administrador</option>
+        <!--<option value="Ofertador">Subastador/Ofertador</option>-->
+        <option value="2">Administrador</option>
       </select>
-      <div *ngIf="profile.invalid && profile.touched" class="text-danger">
-        <small *ngIf="profile.errors?.['required']">El perfil es obligatorio.</small>
+      <div *ngIf="idPerfil.invalid && idPerfil.touched" class="text-danger">
+        <small *ngIf="idPerfil.errors?.['required']">El perfil es obligatorio.</small>
       </div>
     </div>
 
