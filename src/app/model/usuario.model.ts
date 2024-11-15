@@ -1,11 +1,14 @@
 // usuario.model.ts
 export interface Usuario {
     id?: number;             // ID del usuario (opcional, ya que se genera en el servidor)
-    firstName: string;       // Nombre del usuario
-    lastName: string;        // Apellido del usuario 
-    email: string;           // Correo electrónico
-    password: string;        // Contraseña
-    profile: string;         // Perfil del usuario, puede ser 'Ofertador' o 'Administrador'
+    nomUsuario: string;       // Nombre del usuario
+    apeUsuario: string;  
+    dni: string;      // Apellido del usuario 
+    login: string;           // Correo electrónico
+    pass: string;        // Contraseña
+    idPerfil: string;         // Perfil del usuario, puede ser 'Ofertador' o 'Administrador'
+    pregunta:string;
+    respuesta:string;
   }
 
   

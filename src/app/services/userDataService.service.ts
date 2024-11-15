@@ -1,5 +1,5 @@
 // data-service-usuarios.ts
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http"; 
 import { Injectable } from "@angular/core";
 import { Usuario, UsuarioUpdate } from "../model/usuario.model";
 import { Observable } from "rxjs";
@@ -11,6 +11,7 @@ export class DataServiceUsuarios {
   private baseUrl = 'http://localhost:5048/api/Usuario/Usuarios'; 
   private updtUrl = 'http://localhost:5048/api/Usuario'
   private authHeader = 'Basic amFtZXM6amFtZXMxMjM=';
+  private registerUrl = 'http://localhost:5048/register';  
 
   constructor(private http: HttpClient) {}
 
@@ -49,7 +50,7 @@ export class DataServiceUsuarios {
 
   // Crear un nuevo usuario
   guardarUsuario(usuario: Usuario): Observable<Usuario> {
-    return this.http.post<Usuario>(this.baseUrl, usuario, this.getHttpOptions());
+    return this.http.post<Usuario>(this.registerUrl, usuario, this.getHttpOptions());
   }
 
   // Actualizar un usuario
