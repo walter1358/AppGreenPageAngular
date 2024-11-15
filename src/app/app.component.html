@@ -22,7 +22,7 @@
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
-            </li>-->0
+            </li>-->
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -35,12 +35,12 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLibros"
+                    aria-expanded="true" aria-controls="collapseLibros">
                     <i class="fa-solid fa-book-open"></i>
                     <span>Libros</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseLibros" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Custom Components:</h6> -->
                         <a class="collapse-item" (click)="onSubmit()">Libros</a>
@@ -77,17 +77,23 @@
 
 
             <li class="nav-item" *ngIf="!authService.isOfertador()">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa-solid fa-book-open"></i>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGestion"
+                    aria-expanded="true" aria-controls="collapseGestion">
+                    <i class="fa-solid fa-user-cog"></i>
                     <span>Gestión</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseGestion" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Custom Components:</h6> -->
                         <a class="collapse-item" (click)="geSubmit()">Gestión Usuarios</a>
                         <div class="collapse-divider"></div>
+
+                        <!-- <h6 class="collapse-header">Custom Components:</h6> -->
+                        <a class="collapse-item" (click)="usSubmit()">Ver Usuarios</a>
+                        <div class="collapse-divider"></div>                        
                     </div>
+
+
                 </div>
             </li>
 
@@ -107,7 +113,7 @@
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                <button class="rounded-circle border-0" id="sidebarToggle" (click)="toggleSidebar()"></button>
             </div>
 
         </ul>
@@ -158,7 +164,7 @@
                                     </div>
                                 </form>
                             </div>
-                        </li> 
+                        </li>  
 
 
 
@@ -248,3 +254,4 @@
 <ng-template #loginView>
     <router-outlet></router-outlet>
 </ng-template>
+

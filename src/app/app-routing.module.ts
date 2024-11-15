@@ -8,6 +8,7 @@ import { LibrosService } from './services/libros.service';
 //import { ComponentsComponent } from './GestionUsuarios/components/components.component';
 
 import { ComponentsComponent } from './GestionUsuarios/components/components.component';
+import { VerusuariosComponent } from './components/verusuarios/verusuarios.component';
 
 
 
@@ -22,8 +23,14 @@ const routes: Routes = [
     children: []
   },
 
+   { path: 'RegistroLibros',component: CrudLibrosComponent, canActivate: [LibrosService],children: [] },
+
    {
-     path: 'RegistroLibros',component: CrudLibrosComponent, canActivate: [LibrosService],children: [] },
+    path:'VerUsuarios',
+    component:VerusuariosComponent, 
+    canActivate:[LibrosService], 
+    children:[]
+  },
 
    {
      path: 'RegistroSubasta',

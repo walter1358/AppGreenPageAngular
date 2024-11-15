@@ -38,7 +38,11 @@ export class AppComponent implements OnInit{
       this.userData = data; // Actualiza userData cuando cambia 
       });/** */
       
+
+      
    }
+
+
 
      // Inicia la conexión SignalR
      startConnection() {
@@ -57,6 +61,10 @@ export class AppComponent implements OnInit{
       });
     }
 
+    toggleSidebar() {
+      const sidebar = document.getElementById('sidebarToggle');
+      sidebar?.classList.toggle('collapsed');
+    }
 
 
     ngOnClear(){
@@ -85,6 +93,10 @@ export class AppComponent implements OnInit{
 
   geSubmit() {
     this.router.navigate(['/GestionUsuario']);
+  }
+
+  usSubmit(){
+    this.router.navigate(['/VerUsuarios']);
   }
 
 }

@@ -18,3 +18,7 @@ export interface UsuarioUpdate {
     // La contraseña puede omitirse si no se requiere en la actualización
   }
   
+  export interface UsuarioModel{
+    user: number;
+    pass: string;
+}

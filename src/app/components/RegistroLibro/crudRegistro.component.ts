@@ -26,6 +26,13 @@ export class CrudLibrosComponent implements OnInit {
     generoLst: Genero[] = [];
     editorialLst: Editorial[] = [];
     titulo: string = 'LIBROS';
+    today: string;
+    tomorrow: string;
+    errorMessage: string = '';
+    errorMessageisbn: string = '';
+
+
+
 
 
     idlibroInput: number = 0;
@@ -77,7 +84,19 @@ export class CrudLibrosComponent implements OnInit {
         private generoService: GeneroService,
         private _renderer2: Renderer2,
         @Inject(DOCUMENT) private _document: Document
-    ) { }
+    ) { 
+
+      const todayDate = new Date();
+      this.today = todayDate.toISOString().split('T')[0]; // Esto convierte la fecha en formato adecuado     
+      
+         // Obtener la fecha actual como un objeto Date
+      const hoy = new Date();
+       // Sumar un día a la fecha actual
+      hoy.setDate(hoy.getDate() + 1); // Esto suma un día a la fecha actual
+      
+      // Formatear la fecha de mañana en formato YYYY-MM-DD
+      this.tomorrow = hoy.toISOString().split('T')[0];      
+    }
 
     ngAfterViewInit() {
         this.cargarLibros();        
@@ -136,6 +155,8 @@ export class CrudLibrosComponent implements OnInit {
           }
         );
       }
+
+
       editarLibro(idLibro: number): void {
         const libro = this.librosLst.find((l) => l.idLibro === idLibro);
         if (libro) {
@@ -158,6 +179,50 @@ export class CrudLibrosComponent implements OnInit {
       }
       
 
+      validateNumber(event: any): void {
+        // Obtener el valor ingresado y convertirlo a número
+        const value = event.target.value;
+    
+        // Expresión regular para permitir solo números
+        const regex = /^[0-9]+(\.[0-9]+)?$/; // Permite enteros o decimales
+    
+        // Verificar si el valor ingresado es un número válido
+        if (!regex.test(value)) {
+          this.errorMessage = 'Solo se admiten números';
+        } 
+        // Verificar si el valor está dentro del rango de 10 a 70
+        else if (Number(value) < 10 || Number(value) > 70) {
+          this.errorMessage = 'El precio base debe ser mayor que 10 y menor que 70';
+        } 
+        else {
+          this.errorMessage = ''; // Si el valor es válido, limpiamos el mensaje de error
+        }
+    
+        // Si el valor es válido y está en el rango permitido, actualizamos el valor
+        if (this.errorMessage === '') {
+          this.precio_baseInput = value;
+        }
+      }
+
+  // Función para validar el formato del ISBN
+  validateISBN(event: any): void {
+    const isbnPattern = /^(978|979)-\d{1,5}-\d{1,7}-\d{1,7}-\d{1}$/;
+
+    // Obtener el valor del ISBN ingresado
+    const value = event.target.value;
+
+    // Validar si el valor coincide con el patrón ISBN
+    if (!isbnPattern.test(value)) {
+      this.errorMessageisbn = 'El ISBN debe tener el formato: 978-x-xx-xxxxxx-x';
+    } else {
+      this.errorMessageisbn = ''; // Limpiar mensaje de error si el formato es válido
+    }
+
+    // Actualizar el valor de isbnInput solo si el formato es válido
+    if (this.errorMessageisbn === '') {
+      this.isbnInput = value;
+    }
+  }      
 
       
     getEditorialesConocidas(): Editorial[] {
@@ -267,7 +332,7 @@ export class CrudLibrosComponent implements OnInit {
 
     guardarLibros() {
 
-        if (this.ideditorialInput === 0 || this.idgeneroInput === 0 || this.tituloInput === '') {
+        if (this.ideditorialInput === 0 || this.idgeneroInput === 0 || this.tituloInput === '' || this.estadoInput === '' || this.isbnInput === '' || this.sinopsisInput === '' || this.fecha_inicioInput ==='' || this.fecha_finalInput ==='' || this.precio_baseInput === 0) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Hay campos vacíos',

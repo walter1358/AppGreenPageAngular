@@ -1,0 +1,33 @@
+<p>verusuarios works!</p>
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tabla de Ofertas</h6>
+    </div>
+<div class="card-body">
+    <div class="table-responsive">
+<table datatable id="dataTableUsuario" class="table table-bordered">
+    <thead class="bg-secondary"> 
+        <tr class="text-white">
+        <th>#</th>  <!-- Columna de contador -->
+        <th>idUsuario</th>
+        <th>Perfil</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>login</th>
+        <th>Fecha Creacion</th>
+        <th>Activo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Aquí se llenarán las filas dinámicamente con los datos -->
+    </tbody>
+  </table>
+  </div>
+</div>
+</div> 
+
+<button (click)="updateUserStatus(1, true)">prueba</button>
+  
