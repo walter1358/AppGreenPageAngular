@@ -92,7 +92,7 @@ export class CrudLibrosComponent implements OnInit {
          // Obtener la fecha actual como un objeto Date
       const hoy = new Date();
        // Sumar un día a la fecha actual
-      hoy.setDate(hoy.getDate() + 1); // Esto suma un día a la fecha actual
+      hoy.setDate(hoy.getDate() + 0); // Esto suma un día a la fecha actual
       
       // Formatear la fecha de mañana en formato YYYY-MM-DD
       this.tomorrow = hoy.toISOString().split('T')[0];      
@@ -260,6 +260,19 @@ export class CrudLibrosComponent implements OnInit {
 
     //Ejemplo de añadir js directamente
     ngOnInit() {
+
+      // Obtener la fecha actual ajustada a GMT-05
+      const now = new Date();
+      const offset = -5; // GMT-05
+      const localDate = new Date(now.setHours(now.getHours() + offset));
+
+      // Formatear la fecha como YYYY-MM-DD para el input[type="date"]
+      this.today = localDate.toISOString().split('T')[0];
+
+      // Establecer una fecha de ejemplo
+      this.fecha_inicioInput = this.today;      
+      this.fecha_finalInput = this.tomorrow;
+
         //this.listarLibros();
         this.cargarLibros();
         console.log(this.librosLst)
@@ -414,7 +427,7 @@ export class CrudLibrosComponent implements OnInit {
                     desgenero: '' // o algún valor predeterminado si es necesario
                 }  ,*/
                 this.idUsuarioInput                        
-            ); 
+            );  
             console.log("Update", lib)            
             this.librosService.actualizarLibros(this.idlibroAct, lib).subscribe(
                 (response) => {

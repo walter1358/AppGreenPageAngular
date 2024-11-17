@@ -237,6 +237,8 @@ export class PagLoginComponent implements OnInit{
           }
           
       );
+
+      
       console.log('Registering user with data:', userData);
 
   }

@@ -6,7 +6,7 @@ export interface Usuario {
     dni: string;      // Apellido del usuario 
     login: string;           // Correo electrónico
     pass: string;        // Contraseña
-    idPerfil: string;         // Perfil del usuario, puede ser 'Ofertador' o 'Administrador'
+    idPerfil: number;         // Perfil del usuario, puede ser 'Ofertador' o 'Administrador'
     pregunta:string;
     respuesta:string;
   }

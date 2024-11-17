@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 })
 export class ComponentsComponent implements OnInit {
   usuarios: Usuario[] = [];
-  nuevoUsuario: Usuario = { nomUsuario: '', apeUsuario: '', dni:'' ,login: '', pass: '', idPerfil: '',pregunta:'null' , respuesta:'null' };
+  nuevoUsuario: Usuario = { nomUsuario: '', apeUsuario: '', dni:'' ,login: '', pass: '', idPerfil: 2,pregunta:'null' , respuesta:'null' };
 
   constructor(private usuarioService: DataServiceUsuarios) {}
 
@@ -36,7 +36,7 @@ export class ComponentsComponent implements OnInit {
         showConfirmButton: true,
         showCloseButton: true,
     });
-      this.nuevoUsuario = { nomUsuario: '', apeUsuario: '', dni:'' ,login: '', pass: '', idPerfil: '' , pregunta:'null' , respuesta:'null'}; // Limpiar formulario
+      this.nuevoUsuario = { nomUsuario: '', apeUsuario: '', dni:'' ,login: '', pass: '', idPerfil: 2 , pregunta:'null' , respuesta:'null'}; // Limpiar formulario
     },
     error => {
         Swal.fire({
