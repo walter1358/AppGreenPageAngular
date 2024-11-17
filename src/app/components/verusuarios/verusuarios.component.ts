@@ -251,11 +251,11 @@ login: string  = '';
             console.log("Update", lib)            
             this.usuarioService.actualizarUsuario(this.idUsuario, lib).subscribe(
                 (response) => {
-                    console.log('Libro actualizado: ', response);
+                    console.log('Usuario actualizado: ', response);
                     Swal.fire({
                         position: "center",
                         icon: "success",
-                        title: "Se actualizó correctamente el libro",
+                        title: "Se actualizó correctamente el Usuario",
                         showConfirmButton: true,
                         showCloseButton: true,
                     });
@@ -263,11 +263,11 @@ login: string  = '';
                     this.obtenerUsuarios();                    
                 },
                 (error) => {
-                    console.error('Error al actualizar el libro:', error.error);
+                    console.error('Error al actualizar el Usuario:', error.error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: error.error.Message || 'No se pudo actualizar el libro',
+                        text: error.error.Message || 'No se pudo actualizar el Usuario',
                         showCloseButton: true,
                     });
                 }
